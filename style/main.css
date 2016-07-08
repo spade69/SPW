@@ -1,0 +1,71 @@
+ body,h2,span,div{
+  /*clear all */
+  margin:0;
+  padding: 0;} 
+.nav-tabs>li>a{color:white;}
+
+    .wrap{
+      width:800px;
+      margin: 0 auto;
+      padding: 0;
+    }
+    .main{
+      width:100%;
+      overflow: hidden;
+      background-color: #ccc;
+    }
+    .top{
+      margin:0;
+      /*background: #0767c8;*/
+      background: linear-gradient(to bottom right,#086ed5,#055db5);
+      border:1px solid #044e97;
+      color:white;
+    }
+    .foot{
+      width: 800px;
+      height: 100px;
+      background: red;
+      margin:0 auto;
+    }
+    .left{
+      width: 200px;
+      height: 500px;
+      float:left;
+      /*left:200px;
+      top: 100px;*/
+      background: green;
+    }
+    .mid_l{
+      height: 500px;
+      width:300px;
+      background: black;
+      float:left;
+
+    }
+    .mid_r{
+      height: 500px;
+      width:300px;
+      background:#332211;
+      float:left;
+
+    }
+    .right{
+      width: 600px;
+      height: 500px;
+      float:right;
+      /*right:200px;
+      top: 100px;*/
+      background: orange;
+    }
+    .current{
+     color:#086ed5 !important;
+
+    }
+/* jquery easy to achieve
+    .hide{
+      display: none;
+    }
+
+    .show{
+      display: block;
+    }*/
