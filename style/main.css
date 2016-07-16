@@ -40,7 +40,7 @@ body{
       /*left:200px;
       background: green;
       */
-      
+      border: 1px solid #044e97;
     }
     .content{
       position: absolute;
