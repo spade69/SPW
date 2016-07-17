@@ -17,6 +17,7 @@ body{
   }
     .main{
       width:100%;
+
       overflow: hidden;
       background-color: transparent;
       position: relative;
@@ -36,15 +37,17 @@ body{
     }
     .left{
       width: 200px;
+      position:absolute;
+      /*
       float:left;
-      /*left:200px;
+      
       background: green;
       */
-      border: 1px solid #044e97;
+      border: 5px solid #044e97;
     }
     .content{
       position: absolute;
-      margin-left: 200px;
+      /*margin-left: 200px;*/
       margin-right: 200px;
       background-color: black;
     }

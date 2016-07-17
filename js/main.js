@@ -12,28 +12,43 @@ function createSideBar(ele){
 	ele.find("img").css({
 		"width":"150px",
 		"height":"150px"
+
+	});
+
+	ele.on('dragstart',function(){
+		return false;
 	});
 }
 
 //实现元素的拖拉
 function dragMove(ele){
 	var move=false;//标记移动
-	ele.mousedown(function(e){
+	ele.mousedown(function(event){
 		move=true;
-		//e.pageX  e.pageY 当前鼠标的横纵坐标
+		//event.pageX  event.pageY 当前鼠标的横纵坐标
 		//_x 是鼠标离最左边的距离减去div离最左边的距离，即鼠标相对于div左边边距的距离(margin)
-		_x=e.pageX-parseInt(ele.css("left"));//left是离上级的距离，pageX是离文档的
-		_y=e.pageY-parseInt(ele.css("top"));
+		 _x=event.pageX-parseInt(ele.css("left"));//left左外边距边界与其包含块左边界之间的偏移。
+		 _y=event.pageY-parseInt(ele.css("top"));
+
+		// _x=event.pageX-ele.offset().left;
+		// _y=event.pageY-ele.offset().top;
 	});
 	//
-	$(document).mousemove(function(e){
+	$("body").mousemove(function(event){
 		if(move){
-			var x=e.pageX-_x;//控件左上角到屏幕左上角的相对位置
-			var y=e.pageY-_y;
+			var x=event.pageX-_x;//控件左上角到屏幕左上角的相对位置
+			var y=event.pageY-_y;
+			if(x<-100)
+				x=-100;
+			if(y<-100)
+				y=-100;
+			if(x>700)
+				x=700;
+			//bottom，最下方的值不好设置，因为文档会随着内容拉长，不能设为定值
 			ele.css({"top":y,"left":x});
 		}
 	});
-	$(document).mouseup(function(){
+	$("body").mouseup(function(){
 		move=false;
 	});
 
