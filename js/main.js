@@ -76,4 +76,29 @@ $(function(){
 
 	createSideBar($left);
 	dragMove($left);
-})
+
+
+/*weather api*/
+// JSON.parse(jsondata,function(k,v){
+// 			console.log(k);
+// 			//return v;
+// 		});
+	var api="http://api.openweathermap.org/data/2.5/weather?q=";
+	var appid="&APPID=4c16d64121b3d1c838c58a8c8b100a15";
+	var city="Shenzhen";
+	var cb="&jsoncallback=JSON_CALLBACK";
+	$.getJSON(api+city+appid+cb,function(data){
+		alert("ufck");
+		var html='<ul>';
+		//data已经被转为jq的对象
+		 $.each(data,function(k,v){
+		 	console.log(k);
+		});
+		html+='</ul>';
+		
+		$("#weather").html(html);
+		
+	});
+
+
+});
