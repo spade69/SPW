@@ -202,12 +202,38 @@ function report(state){
 	console.log('Permission: '+state);
 }
 
+
+function SideBar(ele){
+	//ele <==> $(".sidebar")
+	$(window).scroll(function(){
+		var items=$("#content").find(".item");
+		var top=$(document).scrollTop();
+		var currentId="";// 滚动条现在所在位置的item id
+		items.each(function(){
+			var m=$(this);
+			//注意 m.offset().top 代表每一个item的顶部位置
+			if(top>m.offset().top-200){
+				currentId="#"+m.attr("id");
+			}else{
+				return false;
+			}
+		});
+
+		var currentLink=ele.find(".currentx");
+		if(currentId&&currentLink.attr("href")!=currentId){
+			currentLink.removeClass("currentx");
+			ele.find("[href="+currentId+"]").addClass("currentx");
+		}
+	});
+}
+
 $(function(){
 	var $ali = $('#tab>li>a');
 	var $li = $('#tab>li');
 	var $ul = $('#tab');
 	var $left=$('#left');
 	var $person=$('#person');
+	var $sidebar=$('#sidebar');
 	var interval=5000;
 		$ali.mouseover(function(){
 			//$(this) indicates $ali dom node
@@ -224,7 +250,7 @@ $(function(){
 
 	createSideBar($person);//$left
 	dragMove($left);
-
+	SideBar($sidebar);
 
 /*weather api*/
 /*

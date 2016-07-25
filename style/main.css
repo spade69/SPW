@@ -12,8 +12,8 @@
 body{
   background-image:url(../images/background.jpg);
   /*background-repeat: no-repeat;*/
-  background-size: cover;
-  /*background-size: contain;*/
+  
+  background-size: contain;
   }
     .main{
       width:100%;
@@ -42,6 +42,7 @@ body{
       
       background: green;
       */
+      z-index: 1000;
       border: 5px solid #044e97;
     }
     #weather{
@@ -54,14 +55,43 @@ body{
     .content{
       position: absolute;
       /*margin-left: 200px;*/
-      margin-right: 200px;
-      background-color: black;
+     
+      
     }
+
+    .content .item{
+      height:560px;
+    }
+
+
     .sidebar{
+      width: 100px;
+      left:740px;
+      top: 100px;
+      position: fixed;       
+    }
+
+    .sidebar li a{
+      color:#044e97;
+      display: block;
+   
+      font-size: 14px;
+      font-weight: bold;
+    
+      line-height: 50px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .sidebar li a:hover,
+    .sidebar li a.currentx{
+      color:#FFF;
+      background-color:#0088bb; 
+    }
+
+    #fill{
       width: 200px;
-      height: 500px;
-      float:right;
-      /*right:200px;
-      top: 100px;*/
-      background: orange;
+      height: 3000px;
+      float: right;
+      background-color: transparent;
     }

@@ -159,6 +159,7 @@ function getQuote(){
 	$("body").css("backgroundColor",xcolor);
 
 	$(".btn").css("backgroundColor",xcolor);
+	$(".quote-text").css("color",xcolor);
 }
 
 
