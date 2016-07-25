@@ -36,7 +36,6 @@ body{
       margin:0 auto;
     }
     .left{
-      width: 200px;
       position:absolute;
       /*
       float:left;
@@ -44,6 +43,13 @@ body{
       background: green;
       */
       border: 5px solid #044e97;
+    }
+    #weather{
+      background-color:#044e97;
+      border: 5px solid white;
+      color:white;
+      margin:0 auto;
+      padding-left: 20px;
     }
     .content{
       position: absolute;

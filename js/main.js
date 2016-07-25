@@ -1,4 +1,15 @@
+/*
+Main page source code
+Of My Super Personal Website
+Author Jason
+Date 2016/7/15
+*/
 
+//Global object. saved postion data.
+var obj={
+	latitude:undefined,
+	longitude:undefined
+};
 
 function createSideBar(ele){
 	//创建几个选项tap并用bootstrap附上样式
@@ -11,13 +22,23 @@ function createSideBar(ele){
 	ele.append($tap1);
 	ele.find("img").css({
 		"width":"150px",
-		"height":"150px"
-
+		"height":"150px",
+		"left":"50px",
+		"position":"relative"
+	});
+	//<div id="person_img">
+	ele.find("img").on("click",function(){
+		console.log($(this));
+		$(this).animate({
+			 "margin-left":"20px",
+			 //left:"toggle"
+		},300);
 	});
 
 	ele.on('dragstart',function(){
 		return false;
 	});
+
 }
 
 //实现元素的拖拉
@@ -55,12 +76,139 @@ function dragMove(ele){
 
 }
 
+//HTML5 Geolocation
+function getLocation(){
+	if(navigator.geolocation){
+
+		//navigator.geolocation.getCurrentPosition(locationSuccess,showError,);
+		
+		var wpid=navigator.geolocation.watchPosition(locationSuccess,showError,{
+			//指示浏览器获取高精度的位置
+			enableHighAcuracy:true,
+			//指定获取地理位置的超时时间，ms
+			timeout:50000,
+			//最长有效期，重复获取地理位置时，此参数多久再次获取
+			maximumAge:30000
+		});
+	}
+	else{
+		alert("Geolocation is not supported by this browser!");
+	}
+}
+
+function locationSuccess(position){
+	var coords=position.coords;
+	obj.latitude=coords.latitude+0.00374531687912;//偏移量校正值 
+	obj.longitude=coords.longitude+0.008774687519;
+	console.log(obj);
+}
+
+
+function showError(error){
+	switch(error.code)
+	{
+		case error.PERMISSION_DENIED:
+			console.log("User denied the request for Geolocation.");
+			break;
+		case error.POSITION_UNAVAILABLE:
+			console.log("Location information is unavailable.");
+			break;
+		case error.TIMEOUT:
+			console.log("The request to get user location timed out.");
+			break;
+		case error.UNKNOWN_ERROR:
+			console.log("An unknown error occurred.");
+			break;
+	}
+}
+
+//AJAX longPolling,but it needs the corperation with server-side
+function longPolling(){
+	var api="http://api.openweathermap.org/data/2.5/weather?q=";
+	var appid="&APPID=4c16d64121b3d1c838c58a8c8b100a15";
+	var city="Shenzhen";
+	// var lat="lat="+obj.latitude;
+	// var lon="lon="+obj.longitude;
+	//返回数据的单位。不设置默认不是摄氏度
+	var units="&units=metric";
+	var cb="&jsoncallback=JSON_CALLBACK";
+	$.ajax({
+		url:api+city+units+appid+cb,
+		data:{"timed":new Date().getTime()},
+		dataType:"jsonp",
+		jsonpCallback:"JSON_CALLBACK",
+		success:function(data){
+
+		}
+	});
+}
+
+function myGetJSON(){
+	var api="http://api.openweathermap.org/data/2.5/weather?";
+	var appid="&APPID=4c16d64121b3d1c838c58a8c8b100a15";
+	var city="q=Shenzhen";
+	//返回数据的单位。不设置默认不是摄氏度
+	var units="&units=metric";
+	//&jsoncallback=?,设置为?是jq随机产生一个名字，但是此处必须指定一个名字，都可以除了?
+	var lat="lat="+obj.latitude;
+	var lon="&lon="+obj.longitude;
+	
+	var cb="&jsoncallback=JSON_CALLBACK";
+	var html='<h4>MyWeather</h4>';
+	$.getJSON(api+lat+lon+units+appid+cb,function(data){
+	var weatherData='<ul>';
+		//data已经被转为jq的对象
+	var temp=Math.round(data.main.temp);
+	var descript=data.weather[0].description;		
+		$.each(data,function(k,v){
+		 	//console.log(k);
+		 });
+	html+='<span>'+data.name+','+data.sys.country+'</span>';
+	$("#weather").html(html);
+	weatherData+='<li>'+temp+'\u2103'+'</li>'+'<li>'+descript+'</li>';
+	weatherData+='</ul>';
+	$("#weather").append(weatherData);
+		
+		
+	});
+}
+
+//Supoo
+function handlePermission(){
+	if(navigator.permissions){
+	navigator.permissions.query({name:'geolocation'}).then(function(result){
+		if(result.state=='granted'){
+			report(result.state);
+			return false;//it doesn't need to ask if location is allowed to visited
+		}else if(result.state=='prompt'){
+			report(result.state);
+			return true;
+		}else if(result.state=='denied'){
+			report(result.state);
+			return false;
+		}
+		result.onchange=function(){
+			report(result.state);
+		}
+	});
+	}
+	else
+	{
+		console.log("The browser doesn't support Permissions API!");
+	}
+}
+
+function report(state){
+	console.log('Permission: '+state);
+}
+
 $(function(){
 	var $ali = $('#tab>li>a');
 	var $li = $('#tab>li');
 	var $ul = $('#tab');
 	var $left=$('#left');
-
+	var $person=$('#person');
+	var interval=5000;
 		$ali.mouseover(function(){
 			//$(this) indicates $ali dom node
 			var $this = $(this);
@@ -74,31 +222,61 @@ $(function(){
 		 	$ali.removeClass('current');
 		 });
 
-	createSideBar($left);
+	createSideBar($person);//$left
 	dragMove($left);
 
 
 /*weather api*/
-// JSON.parse(jsondata,function(k,v){
-// 			console.log(k);
-// 			//return v;
-// 		});
-	var api="http://api.openweathermap.org/data/2.5/weather?q=";
-	var appid="&APPID=4c16d64121b3d1c838c58a8c8b100a15";
-	var city="Shenzhen";
-	var cb="&jsoncallback=JSON_CALLBACK";
-	$.getJSON(api+city+appid+cb,function(data){
-		alert("ufck");
-		var html='<ul>';
-		//data已经被转为jq的对象
-		 $.each(data,function(k,v){
-		 	console.log(k);
-		});
-		html+='</ul>';
-		
-		$("#weather").html(html);
-		
+/*
+Note this example will work only over
+http and NOT https because of a http resource used below.
+*/
+
+	getLocation();
+	handlePermission();
+
+//异步执行的，不会等待函数执行结束才执行。
+//每隔多久刷新一次数据,这个只是读取数据 
+	setTimeout(function(){
+		myGetJSON();
+	},5000);
+	//When acquire data, reset Interval to 30s!
+	var myInterval=setInterval(function(){
+		myGetJSON();
+		console.log(interval);
+		if(obj.latitude!==undefined&&obj.longitude!==undefined)
+		{
+			window.clearInterval(myInterval);
+			//console.log($(this)); this--> window
+			interval=30000;
+			setInterval(function(){
+				myGetJSON();
+				console.log(interval);
+			},interval);
+		}
+	//if(!handlePermission())
+		//getLocation();
+	},interval);
+//manually ask if allowed location ,to get weather data.
+	$("#show_btn").on("click",function(){
+		getLocation();
+	});
+//Info. Improving user experience
+	$("#weather-info").text(function(){
+		if(obj.latitude===undefined||obj.longitude===undefined)
+			return "Loading weather data...";
 	});
 
 
 });
+
+
+/*原生js处理方式
+
+// JSON.parse(jsondata,function(k,v){
+// 			console.log(k);
+// 			//return v;
+// 		});
+
+*/
+
