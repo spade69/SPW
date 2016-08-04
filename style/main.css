@@ -8,7 +8,7 @@
 }
 .nav-tabs>li>a{color:white;}
 .current{color:#086ed5 !important;}
-.wrap{width:800px;margin: 0 auto;padding: 0;}
+.wrap{width:1024px;margin: 0 auto;padding: 0;}
 body{
   background-image:url(../images/background.jpg);
   /*background-repeat: no-repeat;*/
@@ -17,7 +17,6 @@ body{
   }
     .main{
       width:100%;
-
       overflow: hidden;
       background-color: transparent;
       position: relative;
@@ -30,7 +29,7 @@ body{
       color:white;
     }
     .foot{
-      width: 800px;
+      width: 1024px;
       height: 100px;
       background: red;
       margin:0 auto;
@@ -94,4 +93,25 @@ body{
       height: 3000px;
       float: right;
       background-color: transparent;
+    }
+
+
+    #gallery{position: relative;}
+
+    .box{
+      padding: 15px 0 0 15px;
+      float: left;
+    }
+
+    .pic{
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 0 5px #ccc;
+    }
+
+    .pic img{
+      width:165px;
+      height: auto; 
+      /*it's really useful set to auto */
     }
