@@ -239,6 +239,9 @@ function tab_switch(ele){
 		for(var i=0;i<tmp.length;i++){
 			if(event.target===tmp[i]){
 				$("#tabContent").children().eq(i).removeClass("hidden");
+				if(i===4)
+				waterfall('gallery','box');
+				//waterfallJQ('gallery');
 			}
 		}
 	});
@@ -277,6 +280,7 @@ function waterfall(parent,box){
 	var hArr=[];
 	for(var i=0;i<oBoxs.length;i++)
 	{
+		console.log(oBoxs[i]);
 		if(i<cols){
 			hArr.push(oBoxs[i].offsetHeight);
 		}else{
@@ -291,6 +295,37 @@ function waterfall(parent,box){
 			hArr[index]+=oBoxs[i].offsetHeight;
 		}
 	}
+}
+
+//waterfall JQ ver
+function waterfallJQ(parent){
+	var oParent=$("#"+parent);
+	var oBoxs=oParent.children("div.box");
+	//var oBoxW=oBoxs[0].outerWidth();
+	var oBoxW=oBoxs.eq(0).outerWidth();
+	var dWidth=$(window).width();
+	var cols=Math.floor(dWidth/oBoxW);
+	oParent.css({
+		width:oBoxW*cols+'px',
+		margin:"0 auto"
+	});
+	var hArr=[];
+	oBoxs.each(function(index,value){
+		var h=oBoxs.eq(index).outerHeight();
+		if(index<cols){
+			hArr[index]=h;
+		}else{
+			var minH=Math.min.apply(null,hArr);// min apply to array hArr!
+			var minIndex=hArr.indexOf(minH);
+			// value=oBoxs[index]
+			$(value).css({
+				'position':'absolute',
+				'top':minH+'px',
+				'left':minIndex*oBoxW+'px'
+			});
+			hArr[minIndex]+=$(value).outerHeight();
+		}
+	});
 }
 
 //检测是否加载图片
@@ -375,7 +410,7 @@ http and NOT https because of a http resource used below.
 	});
 
 	tab_switch("tab");
-	waterfall('gallery','box');
+	
 });
 
 
