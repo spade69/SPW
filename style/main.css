@@ -6,8 +6,10 @@
   list-style: none;
   vertical-align: baseline;
 }
-.nav-tabs>li>a{color:white;}
-.current{color:#086ed5 !important;}
+
+
+.current{color:#086ed5 !important;
+  background-color:white !important;}
 .wrap{width:1024px;margin: 0 auto;padding: 0;}
 body{
   background-image:url(../images/background.jpg);
@@ -23,11 +25,15 @@ body{
     }
     .top{
       margin:0;
-      /*background: #0767c8;*/
-      background: linear-gradient(to bottom right,#086ed5,#055db5);
-      border:1px solid #044e97;
       color:white;
     }
+    .nav, #navbar-target, .navbar-default{
+      background:linear-gradient(to bottom right,#086ed5,#055db5);
+      color:white;
+    }
+
+    .navbar-default .navbar-nav>li>a{color: white;}
+
     .foot{
       width: 1024px;
       height: 100px;
@@ -54,7 +60,6 @@ body{
     .content{
       position: absolute;
       /*margin-left: 200px;*/
-     
       
     }
 
