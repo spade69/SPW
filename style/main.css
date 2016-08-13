@@ -27,13 +27,156 @@ body{
       margin:0;
       color:white;
     }
-    .nav, #navbar-target, .navbar-default{
+    .navbar-default{
       background:linear-gradient(to bottom right,#086ed5,#055db5);
       color:white;
+      border-radius: 10px;
+      /*boxshadow: X偏移 Y偏移 [阴影模糊半径][阴影扩展半径][阴影颜色]*/
+      box-shadow: 0px 8px 0px #044e97;
+      margin-top: 20px;
     }
-
+    .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{
+      background-color:white;
+    }
     .navbar-default .navbar-nav>li>a{color: white;}
 
+    #tab>li{
+      display: inline;
+      border-right: 1px solid #94c0be;
+    }
+    #tab>li:last-child{border-right:none;}
+
+    #tab li a{
+      /*字体更清晰*/
+      -webkit-font-smoothing:antialiased;
+      -moz-font-smoothing:antialiased;
+      font-smoothing:antialiased;
+      overflow:visible; 
+      line-height: 20px;
+      font-size: 18px;
+      padding: 15px 25px 15px 26px;
+    }
+
+
+    .three-d{
+      -webkit-perspective:200px;
+      -moz-perspective:200px;
+      -ms-perspective:200px;
+      -o-perspective:200px;
+      perspective:200px;
+
+      -webkit-transition:all .7s ease;
+      -moz-transition:all .7s ease;
+      -ms-transition:all .7s ease;
+      -o-transition:all .7s ease;
+      transition:all .7s ease;
+      position: relative;
+    }
+
+    .three-d:not(.active):hover{cursor: pointer;}
+    .three-d:not(.active):hover .three-d-box,
+    .three-d:not(.active):focus .three-d-box {
+      -webkit-transform:translateZ(-25px) rotateX(90deg);
+      -moz-transform:translateZ(-25px) rotateX(90deg);
+      transform:translateZ(-25px) rotateX(90deg);
+    }
+
+    .three-d-box{
+      -webkit-transition:all .3s ease-out;
+      -moz-transition:all .3s ease-out;
+      -ms-transition:all .3s ease-out;
+      -o-transition:all .3s ease-out;
+      transition:all .3s ease-out;
+      -webkit-transform: translateZ(-25px);
+      -moz-transform: translateZ(-25px);
+      -ms-transform: translateZ(-25px);
+      -o-transform: translateZ(-25px);
+      transform:translateZ(-25px);
+      -webkit-transform-style: preserve-3d;
+      -moz-transform-style: preserve-3d;
+      -ms-transform-style: preserve-3d;
+      -o-transform-style: preserve-3d;
+      transform-style:preserve-3d;
+      position: absolute;
+      pointer-events:none;
+      top:0;left: 0;
+      display: block;
+      width: 100%;height: 100%;
+    }
+
+    .front{
+      -webkit-transform: rotateX(0deg) translateZ(25px);
+      -moz-transform: rotateX(0deg) translateZ(25px);
+      -ms-transform: rotateX(0deg) translateZ(25px);
+      -o-transform: rotateX(0deg) translateZ(25px);
+      transform:rotateX(0deg) translateZ(25px);
+    }
+    .back{   
+      -webkit-transform:rotateX(-90deg) translateZ(25px);
+      -moz-transform:rotateX(-90deg) translateZ(25px);
+      -ms-transform:rotateX(-90deg) translateZ(25px);
+      -o-transform:rotateX(-90deg) translateZ(25px);
+      transform:rotateX(-90deg) translateZ(25px);
+      color: white;
+    }
+    .front,.back{
+      display: block;
+      width: 100%;height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding:15px 25px 15px 26px;
+      color: white;
+      pointer-events:none;
+      background: #086ed5;
+      box-sizing:border-box;
+      -webkit-pointer-events: none;
+      -moz-pointer-events: none;
+      -ms-pointer-events: none;
+      -o-pointer-events: none;
+      pointer-events: none;
+    }
+  /*获得焦点处于active状态的样式*/
+    #tab li .active .front,
+    #tab li .active .back,
+    #tab li a:hover .front,
+    #tab li a:hover .back{
+      background-color:#044e97;
+      background-size:5px 5px;
+      background-position: 0 0,30px 30px;
+    }
+    /*tab 是ul， 以下样式是作用于嵌套ul，也就是#tab的子列表*/
+    #tab ul{
+      position: absolute;
+      text-align:left;
+      line-height: 20px;
+      font-size: 18px;
+      width: 200px
+      -webkit-transition:all 0.3s ease-in;
+      -moz-transition:all 0.3s ease-in;
+      -o-transition:all 0.3s ease-in;
+      -ms-transition:all 0.3s ease-in;
+      transition:all 0.3s ease-in;
+      -webkit-transform-origin:0px 0px;
+      -moz-transform-origin:0px 0px;
+      -o-transform-origin:0px 0px;
+      -ms-transform-origin:0px 0px;
+      transform-origin:0px 0px;
+      -webkit-transform: rotateX(-90deg);
+      -moz-transform: rotateX(-90deg);
+      -ms-transform: rotateX(-90deg);
+      -o-transform: rotateX(-90deg);
+      transform: rotateX(-90deg);
+    }
+
+    #tab>li:hover ul{
+      display: block;
+      transform:rotateX(0deg);
+      -webkit-transform:rotateX(0deg);
+      -moz-transform:rotateX(0deg);
+      -o-transform:rotateX(0deg);
+      -ms-transform:rotateX(0deg);
+    }
     .foot{
       width: 1024px;
       height: 100px;
@@ -43,8 +186,7 @@ body{
     .left{
       position:absolute;
       /*
-      float:left;
-      
+      float:left; 
       background: green;
       */
       z-index: 1000;
@@ -60,7 +202,6 @@ body{
     .content{
       position: absolute;
       /*margin-left: 200px;*/
-      
     }
 
     .content .item{
@@ -107,7 +248,7 @@ body{
       padding: 15px 0 0 15px;
       float: left;
     }
-
+    /*白色外边框+阴影+内边距*/
     .pic{
       padding: 10px;
       border: 1px solid #ccc;

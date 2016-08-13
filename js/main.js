@@ -160,9 +160,9 @@ function myGetJSON(){
 		//data已经被转为jq的对象
 	var temp=Math.round(data.main.temp);
 	var descript=data.weather[0].description;		
-		$.each(data,function(k,v){
-		 	//console.log(k);
-		 });
+		/*$.each(data,function(k,v){
+		 	console.log(k);
+		 });*/
 	html+='<span>'+data.name+','+data.sys.country+'</span>';
 	$("#weather").html(html);
 	weatherData+='<li>'+temp+'\u2103'+'</li>'+'<li>'+descript+'</li>';
@@ -271,7 +271,7 @@ function waterfall(parent,box){
 	//计算整个页面显示的列数(页面宽/box的宽)
 	var oBoxW=oBoxs[0].offsetWidth;//单列的宽度
 	//clientWidth为页面宽度，兼容所有浏览器的写法
-	var dWidth=window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth;
+	var dWidth=document.documentElement.clientWidth||document.body.clientWidth||window.innerWidth;
 	console.log(dWidth);
 	var cols=Math.floor(dWidth/oBoxW);
 	//设置Gallery的宽度，居中对齐
@@ -341,6 +341,18 @@ function checkScrollSlide(){
 	var height=document.documentElement.clientHeight||document.body.clientHeight;
 	return (lastBoxH<scrollTop+height);
 }
+//滚动条 hidden处理
+function scrollHidden(ele){
+	//对于MOZ window.innerWidth 不准确,放最后把
+	var dWidth=document.documentElement.clientWidth||document.body.clientWidth||window.innerWidth;
+	if(dWidth<750)
+	{
+		ele.find("a").css("overflow","hidden");
+	}
+	else{
+		ele.find("a").css("overflow","visible");
+	}
+}
 
 
 $(function(){
@@ -350,6 +362,7 @@ $(function(){
 	var $left=$('#left');
 	var $person=$('#person');
 	var $sidebar=$('#sidebar');
+
 	var interval=5000;
 		$ali.mouseover(function(){
 			//$(this) indicates $ali dom node
@@ -367,7 +380,7 @@ $(function(){
 	createSideBar($person);//$left
 	dragMove($left);
 	SideBar($sidebar);
-
+	scrollHidden($ul);
 /*weather api*/
 /*
 Note this example will work only over
@@ -413,13 +426,10 @@ http and NOT https because of a http resource used below.
 	
 });
 
-
 /*原生js处理方式
 
-// JSON.parse(jsondata,function(k,v){
-// 			console.log(k);
-// 			//return v;
-// 		});
-
+	 JSON.parse(jsondata,function(k,v){
+ 			console.log(k);
+			return v;
+		});
 */
-
