@@ -147,7 +147,7 @@ body{
     }
     /*tab 是ul， 以下样式是作用于嵌套ul，也就是#tab的子列表*/
     #tab ul{
-      position: absolute;
+      position:absolute;
       text-align:left;
       line-height: 20px;
       font-size: 18px;
@@ -208,12 +208,32 @@ body{
       height:560px;
     }
 
-
+    /*响应式适应 调整sidebar的位置*/
     .sidebar{
       width: 100px;
       left:740px;
       top: 100px;
       position: fixed;       
+    }
+    @media screen and (min-width:900px){
+      .sidebar{
+      left:900px;
+      }
+    }
+    @media screen and (max-width:900px) and (min-width:700px){
+      .sidebar{
+        left:760px;
+      }
+    }
+    @media screen and (max-width:700px) and (min-width:500px){
+      .sidebar{
+        left:580px;
+      }
+    }
+    @media screen and (max-width:480px){
+      .sidebar{
+        display: none;
+      }
     }
 
     .sidebar li a{

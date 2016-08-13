@@ -341,6 +341,7 @@ function checkScrollSlide(){
 	var height=document.documentElement.clientHeight||document.body.clientHeight;
 	return (lastBoxH<scrollTop+height);
 }
+
 //滚动条 hidden处理
 function scrollHidden(ele){
 	//对于MOZ window.innerWidth 不准确,放最后把
@@ -380,8 +381,12 @@ $(function(){
 	createSideBar($person);//$left
 	dragMove($left);
 	SideBar($sidebar);
-	scrollHidden($ul);
-/*weather api*/
+	//隔一段时间设置一次<a>的overflow，设置为hidden就不会有scroll滚动条
+	setInterval(function(){
+		scrollHidden($ul);
+	},500);
+	
+/*weather api
 /*
 Note this example will work only over
 http and NOT https because of a http resource used below.
