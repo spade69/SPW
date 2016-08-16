@@ -1,0 +1,29 @@
+.wrapper{
+	width: 100%;
+	max-width: 980px;
+	overflow: hidden;
+	margin: 0 auto;
+}
+/*1024px显示屏*/
+@media screen and (max-width:1024px){
+
+}
+/*800px */
+@media screen and (max-width:800px){
+
+}
+@media screen and (max-width: 640px){
+
+}
+
+/*ipad 横板显屏*/
+@media screen and (max-device-width:1024px) and (orientation:landscape){
+
+}
+
+
+/*ipad 竖板显屏*/
+@media screen and (min-device-width:320px) and (min-device-width:480px){
+
+}
+
