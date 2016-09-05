@@ -239,8 +239,9 @@ function tab_switch(ele){
 		for(var i=0;i<tmp.length;i++){
 			if(event.target===tmp[i]){
 				$("#tabContent").children().eq(i).removeClass("hidden");
-				if(i===4)
+				if(i===4)//Graph
 				waterfall('gallery','box');
+				//else if(i==2)//Leave Note
 				//waterfallJQ('gallery');
 			}
 		}
