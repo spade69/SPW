@@ -281,3 +281,22 @@ body{
       height: auto; 
       /*it's really useful set to auto */
     }
+    .loginForm{
+      padding: 10px 0 0 20px;
+      margin-right: 20px;
+      position: relative;
+    }
+
+    .loginForm .validate input{
+      width: 80px;
+    }
+    .loginForm .validate img{
+      left: 100px;
+      bottom:3px;
+      position:absolute;
+    }
+
+    .loginForm #btnSignIn{
+      width: 350px;
+      margin-top: 10px;
+    }
