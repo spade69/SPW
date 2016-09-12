@@ -1,5 +1,10 @@
-//HTML5 Geolocation
 
+/*
+My GeoLocation  module source
+Author Jason
+Date 2016/9/11
+*/
+//HTML5 Geolocation
 define(['jquery'],function(jquery){
 
 //Global object. saved postion data.
@@ -101,19 +106,20 @@ define(['jquery'],function(jquery){
 		},
 		handlePermission:function(){
 			if(navigator.permissions){
+				var self=this;
 				navigator.permissions.query({name:'geolocation'}).then(function(result){
 				if(result.state=='granted'){
-					this.report(result.state);
+					self.report(result.state);
 					return false;//it doesn't need to ask if location is allowed to visited
 				}else if(result.state=='prompt'){
-					this.report(result.state);
+					self.report(result.state);
 					return true;
 				}else if(result.state=='denied'){
-					this.report(result.state);
+					self.report(result.state);
 					return false;
 				}
 					result.onchange=function(){
-						this.report(result.state);
+						self.report(result.state);
 					}
 				});
 			}

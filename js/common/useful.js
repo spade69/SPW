@@ -14,10 +14,10 @@ define(function(){
 		return len;
 	}
 
-	//
+	/*
 	$=function(e1){
 		return document.querySelector(e1);
-	}
+	}*/
 	// 跨浏览器兼容的工具函数
 	addEvent=function(element,type,handler) {
 	    if(element.addEventListener) {

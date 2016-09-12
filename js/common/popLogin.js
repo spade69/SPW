@@ -19,10 +19,10 @@ define(['useful'],function(useful){
 	//ctn 
 	function CreateFloat(ctn,mask,pop,login){
 		var mousePanel,mouseCtrl,mouseType;
-		this.mask=$("#"+mask);
-		this.ctn=$("#"+ctn);
-		this.pop=$("#"+pop);
-		this.login=$("#"+login);
+		this.mask=document.getElementById(mask);
+		this.ctn=document.getElementById(ctn);
+		this.pop=document.getElementById(pop);
+		this.login=document.getElementById(login);
 		this.mouseOffsetX=0;
 		this.mouseOffsetY=0;
 		this.isDraging=false;
@@ -96,7 +96,7 @@ define(['useful'],function(useful){
 	CreateFloat.prototype={
 		//自动居中
 		autoCenter:function(ele){
-			var ele=$("#"+ele);
+			var ele=document.querySelector(ele)||document.getElementById(ele);
 			var bodyW=document.body.clientWidth;
 			var bodyH=document.body.clientHeight;
 
@@ -108,7 +108,7 @@ define(['useful'],function(useful){
 		},
 		//使元素自动全屏
 		fillToBody:function(ele){
-			var ele=$("#"+ele);
+			var ele=document.querySelector(ele)||document.getElementById(ele);
 			ele.style.width=document.body.clientWidth+"px";
 			ele.style.height=document.body.clientHeight+"px";
 		},
@@ -208,7 +208,7 @@ define(['useful'],function(useful){
 			}
 		},
 		resizable:function(ele){
-			var pop=$("#"+ele);;//panel是传入的元素
+			var pop=document.querySelector(ele)||document.getElementById(ele);//panel是传入的元素
 			//在ele后面创建三个div，它们是resizeable box
 			var self=this;//this是随着上下文执行环境改变的
 			var rightBox=document.createElement("div");
