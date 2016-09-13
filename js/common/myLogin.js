@@ -23,11 +23,33 @@ define(['verify'],function(verify){
 			console.log("running verify");
 		},
 		myPost:function(){
-			var api="http://204d.cn/youtu/login";
-			var userID=
-			var userCode=
-			$.getJSON()
+			//var api="http://204d.cn/youtu/login";
+			var url=$(".loginForm").attr("action");
+			var userID=$("#username").val();//val() 用于获取输入框的内容
+			var userCode=$("#passwd").val();
+			//find操作
+			var validateCode=$(".loginForm").find("input[name='validateCode']").val();
+			console.log(validateCode);
+			var posting=$.post(url,function(){
+				console.log("success");
+			});
+			posting.done(function(data){
+				console.log(data);
+			});
+		},//刷新验证码
+		myValidateFresh:function(){
+			var url="http://204d.cn/youtu/getValidateCode";
+			var img=$("#validateImg").on('click',function(){
+				/*$.ajax({
+					type:"GET",
+					url:"http://204d.cn/youtu/getValidateCode",
+					dataType:"jsonp",
+
+				})*/
+				this.attr("src",url);
+			});
 		}
+
 	}
 	return {
 		createLogin:createLogin

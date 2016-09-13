@@ -55,6 +55,12 @@ function tab_switch(ele,myLogin){
 				{
 					var myLog=new myLogin.createLogin();
 					myLog.myVerify();
+					$("#btnSignIn").on('submit',function(event){
+						event.preventDefault();
+						myLog.myPost();
+						myLog.myValidateFresh();
+					});
+					
 				}
 			}
 		}

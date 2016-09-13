@@ -118,7 +118,7 @@
           <div class="poptip" id="pop">
             <span class="poptip-arrow poptip-arrow-top"><em>◆</em><i>◆</i></span>  <button id="closeBtn" type="button" value="X" class="btn btn-primary">X</button>   
               <h2 class="text-center">Sign in to Chat</h2>
-              <div class="form-horizontal loginForm">
+              <form class="form-horizontal loginForm" method="post" action="http://204d.cn/youtu/login">
               <div class="form-group">
                   <div class="input-group">
                    <label class="control-label input-group-addon glyphicon glyphicon-user"></label>
@@ -139,10 +139,10 @@
                   <a href="#" class="validate"><img src="http://204d.cn/youtu/getValidateCode" id="validateImg" height="25"/></a>
                 </div>
                 <div class="form-group">
-                  <button id="btnSignIn" class="btn btn-success btnSignIn">Sign in</button>
+                  <input id="btnSignIn" type="submit" class="btn btn-success btnSignIn" value="Sign in"/>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
      </div>
