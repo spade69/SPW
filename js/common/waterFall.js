@@ -23,7 +23,7 @@ define(['jquery'],function(jquery){
 		var hArr=[];
 		for(var i=0;i<oBoxs.length;i++)
 		{
-			console.log(oBoxs[i]);
+			//console.log(oBoxs[i]);
 			if(i<cols){
 				hArr.push(oBoxs[i].offsetHeight);
 			}else{
@@ -87,13 +87,50 @@ define(['jquery'],function(jquery){
 	//同样需要考虑浏览器兼容性
 	//算法：比较 浏览器的滚动的距离+浏览器页面的高度 与 最后一张图片距离顶部的距离+该元素一半的高度
 
-	checkScrollSlide=function(){
-		var oParent=document.getElementById('gallery');
-		var oBoxs=getByClass(oParent,'box');
+	checkScrollSlide=function(parent,box){
+		var oParent=document.getElementById(parent);
+		var oBoxs=getByClass(oParent,box);
 		var lastBoxH=oBoxs[oBoxs.length-1].offsetTop+Math.floor(oBoxs[oBoxs.length-1].offsetHeight/2);
 		//混杂模式 标准模式！
 		var scrollTop=document.body.scrollTop||document.documentElement.scrollTop;
 		var height=document.documentElement.clientHeight||document.body.clientHeight;
 		return (lastBoxH<scrollTop+height);
+	}
+	getPhoto=function(parent){
+		//return json dataInt={"data":[{"src":"0.jpg"},{"src","1.jpg"},....]};
+		var urlBase="http://119.29.165.186/balight/file/photos/";
+		var oParent=document.getElementById(parent);
+		oParent.innerHTML="<div class='box'><div class='pic'><img src='"+urlBase+"0.jpg'></div></div>";
+		for (var i = 1; i <93; i++) {
+					var oBox=document.createElement('div');
+					oBox.className='box';
+					oParent.appendChild(oBox);
+					var oPic=document.createElement('div');
+					oPic.className='pic';
+					oBox.appendChild(oPic);
+					var oImg=document.createElement('img');
+					oImg.src=urlBase+i+".jpg";
+					oPic.appendChild(oImg);
+		}
+		var count=23;
+/*		window.onscroll=function(){
+			if(checkScrollSlide&&count<93){
+				//var oParent=document.getElementById(parent);
+				//let data reder behind将数据块加载到页面尾部
+				//93 length of data
+				count++;
+				var oBox=document.createElement('div');
+				oBox.className='box';
+				oParent.appendChild(oBox);
+				var oPic=document.createElement('div');
+				oPic.className='pic';
+				oBox.appendChild(oPic);
+				var oImg=document.createElement('img');
+				oImg.src=urlBase+count+".jpg";
+				oPic.appendChild(oImg);
+				
+			}
+		}
+*/
 	}
 });

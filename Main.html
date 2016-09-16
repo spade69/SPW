@@ -38,9 +38,9 @@
       <span class="three-d-box"><span class="front">留言</span>
       <span class="back">留言</span></span>
     </a></li>
-    <li><a href="#" class="three-d">二次元
-      <span class="three-d-box"><span class="front">二次元</span>
-      <span class="back">二次元</span></span>
+    <li><a href="#signup" class="three-d">注册
+      <span class="three-d-box"><span class="front">注册</span>
+      <span class="back">注册</span></span>
     </a></li>
     <li><a href="#photo" class="three-d">摄影
         <span class="three-d-box"><span class="front">摄影</span>
@@ -106,10 +106,14 @@
       <div class="w_title">
       </div>
       <div class="input">
-        <textarea class="w_input" title="inputNote"></textarea>
+        <textarea class="w_input" title="inputNote" id="txtInput"></textarea>
         <div class="set_timer"></div>
+        <div class-"send_succpic" style="display:none">
+          <span class=""></span>
+          <span class="">发布成功</span>
+        </div>
         <div class="funcara clearfix">
-          <button class="btn btn-danger">发布</button>
+          <button class="btn btn-danger" id="posts">发布</button>
           <span class="btn login" id='login'>登录</span>
         </div>
       </div>
@@ -122,21 +126,21 @@
               <div class="form-group">
                   <div class="input-group">
                    <label class="control-label input-group-addon glyphicon glyphicon-user"></label>
-                    <input type="text" id="username" name="name" placeholder="admin" class="form-control"> 
+                    <input type="text" id="userid" name="name" placeholder="admin" class="form-control"> 
                     <div id="info"></div>
                   </div> 
               </div>
               <div class="form-group">
                   <div class="input-group">
                    <label for="passwd" class="control-label input-group-addon glyphicon glyphicon-lock"></label>
-                    <input type="password" id="passwd" placeholder="password" class="form-control"> 
+                    <input type="password" id="codeid" placeholder="password" class="form-control"> 
                     <div id="icode"></div>
                   </div> 
               </div>
               <div class="form-group">
                 <div class="input-group validate">
                   <input type="text" name="validateCode" placeholder="Validate" class="form-control"/>
-                  <a href="#" class="validate"><img src="http://204d.cn/youtu/getValidateCode" id="validateImg" height="25"/></a>
+                  <a href="javascript:void(0);" class="validate"><img src="http://204d.cn/youtu/getValidateCode" id="validateImg" height="25"/></a>
                 </div>
                 <div class="form-group">
                   <input id="btnSignIn" type="submit" class="btn btn-success btnSignIn" value="Sign in"/>
@@ -147,124 +151,51 @@
         </div>
      </div>
      <div class="note_main">
-       <div class=""></div>
+       <div id="oContent"></div>
      </div>
     </div>
   </div>  
   
-  <div id="animate"></div>
-  <div id="gallery" class="hidden">
-      <div class="box">
-          <div class="pic">
-            <img src="images/0.jpg">
-          </div>
+  <!-- <div id="animate"></div> -->
+  <div id="signup" class="hidden">
+    <div class="row">
+    <div class="col-xs-6">
+      <form class="form-horizontal" role="form" method="post">
+      <label class="control-label text-center">注册</label>
+      <div class="form-group">
+        <div class="input-group">
+          <label class="col-sm-4 control-label text-left">名称</label>
+          <input type="text" id="username" class="form-control">
+          <div id="info"></div>
         </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/1.jpg">
-          </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <label class="col-sm-4 control-label">密码</label>
+          <input type="password" id="passwd" class="form-control">
+          <div id="dcode"></div>
         </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/2.jpg">
-          </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <label class="col-sm-4 control-label">密码确认</label>
+          <input type="password" id="xpasswd" class="form-control">
+          <div id="dcodex"></div>
         </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/3.jpg">
-          </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <label class="col-sm-4 control-label">邮箱</label>
+          <input type="text" id="mail" class="form-control">
+          <div id="dmail"></div>
         </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/4.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/5.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/6.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/7.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/8.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/9.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/10.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/11.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/12.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/13.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/14.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/15.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/16.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/17.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/18.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/19.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/20.jpg">
-          </div>
-        </div>
-        <div class="box">
-          <div class="pic">
-            <img src="images/21.jpg">
-          </div>
-        </div>
+      </div>
+        <button id="verify" class="btn btn-primary">提交</button>
+      </form>
+      </div>
+    </div>
   </div>
+  <div id="gallery" class="hidden"></div>
 </div>
   <div id="fill">
   </div>

@@ -41,7 +41,7 @@ function SideBar(ele){
 	//遍历每一个tab,用事件代理捕捉。
 	//1)是绑定所有的孩子和click事件
 	//2) 事件委托，绑定到父元素
-function tab_switch(ele,myLogin){
+function tab_switch(ele,myLogin,myPosts){
 	var myEle=$('#'+ele);	
 	myEle.on('click','li a',function(event){
 		$("#tabContent").children().addClass("hidden");
@@ -50,17 +50,21 @@ function tab_switch(ele,myLogin){
 			if(event.target===tmp[i]){
 				$("#tabContent").children().eq(i).removeClass("hidden");
 				if(i===4)//Graph
-				waterfall('gallery','box');
+				{
+					getPhoto('gallery');
+					waterfall('gallery','box');
+				}
 				else if(i==2)//Leave Note
 				{
 					var myLog=new myLogin.createLogin();
+					var myPost=new myPosts.createPosts('posts','txtInput','oContent');
 					myLog.myVerify();
 					$("#btnSignIn").on('submit',function(event){
 						event.preventDefault();
 						myLog.myPost();
 						myLog.myValidateFresh();
 					});
-					
+					myPost.init();
 				}
 			}
 		}
@@ -80,8 +84,8 @@ function scrollHidden(ele){
 	}
 }
 
-require(['createSideBar','dragMove','getGeoLocation','bootstrap','waterFall','myLogin'],
-	function(createSideBar,dragMove,getGeoLocation,bootstrap,waterFall,myLogin){
+require(['createSideBar','dragMove','getGeoLocation','bootstrap','waterFall','myLogin','myPosts'],
+	function(createSideBar,dragMove,getGeoLocation,bootstrap,waterFall,myLogin,myPosts){
 	var $ali = $('#tab>li>a');
 	var $li = $('#tab>li');
 	var $ul = $('#tab');
@@ -151,7 +155,7 @@ http and NOT https because of a http resource used below.
 			return "Loading weather data...";
 	});
 
-	tab_switch("tab",myLogin);
+	tab_switch("tab",myLogin,myPosts);
 
 });
 
