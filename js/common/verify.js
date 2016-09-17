@@ -100,7 +100,8 @@ vform.prototype={
 		icode.innerHTML="<span style='color:gray'>6~16位数字和字母</span>";
 		});
 	},
-
+	//fcode -- former(Original) password, xcode--xpassword
+	//dcodex --the info div under it
 	vPassx:function(dcodex,fcode,xcode){
 		// var xcode=inputEles[2];
 		// var fcode=inputEles[1];

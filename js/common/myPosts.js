@@ -30,8 +30,8 @@ define(['jquery'],function(jquery){
 		confine:function(){//txtarea字符限制
 
 		},
-		format:function(str){//日期格式化
-
+		format:function(str){//格式化时间, 如果为一位数时补0
+			return str.toString().replace(/^(\d)$/,"0$1");
 		},
 		//Ajax get 
 		getContent:function(){

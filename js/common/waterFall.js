@@ -101,16 +101,16 @@ define(['jquery'],function(jquery){
 		var urlBase="http://119.29.165.186/balight/file/photos/";
 		var oParent=document.getElementById(parent);
 		oParent.innerHTML="<div class='box'><div class='pic'><img src='"+urlBase+"0.jpg'></div></div>";
-		for (var i = 1; i <93; i++) {
-					var oBox=document.createElement('div');
-					oBox.className='box';
-					oParent.appendChild(oBox);
-					var oPic=document.createElement('div');
-					oPic.className='pic';
-					oBox.appendChild(oPic);
-					var oImg=document.createElement('img');
-					oImg.src=urlBase+i+".jpg";
-					oPic.appendChild(oImg);
+		for (var i = 1; i <97; i++) {
+				var oBox=document.createElement('div');
+				oBox.className='box';
+				oParent.appendChild(oBox);
+				var oPic=document.createElement('div');
+				oPic.className='pic';
+				oBox.appendChild(oPic);
+				var oImg=document.createElement('img');
+				oImg.src=urlBase+i+".jpg";
+				oPic.appendChild(oImg);
 		}
 		var count=23;
 /*		window.onscroll=function(){

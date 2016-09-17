@@ -49,22 +49,31 @@ function tab_switch(ele,myLogin,myPosts){
 		for(var i=0;i<tmp.length;i++){
 			if(event.target===tmp[i]){
 				$("#tabContent").children().eq(i).removeClass("hidden");
-				if(i===4)//Graph
-				{
-					getPhoto('gallery');
-					waterfall('gallery','box');
-				}
-				else if(i==2)//Leave Note
-				{
-					var myLog=new myLogin.createLogin();
-					var myPost=new myPosts.createPosts('posts','txtInput','oContent');
-					myLog.myVerify();
-					$("#btnSignIn").on('submit',function(event){
-						event.preventDefault();
-						myLog.myPost();
-						myLog.myValidateFresh();
-					});
-					myPost.init();
+				switch(i)
+				{//Graph
+					case 4:
+						getPhoto('gallery');
+						waterfall('gallery','box');
+						break;
+			
+					case 3:
+						var mySignUp=new myLogin.createSignUp('username','passwd','xpasswd','mail',
+							'info','icode','dcodex','dmail');
+						mySignUp.myVerify();
+						break;
+					
+					case 2://Leave Note
+						var myLog=new myLogin.createLogin('btnSignIn','userid','codeid');
+						var myPost=new myPosts.createPosts('posts','txtInput','oContent');
+					
+						$("#btnSignIn").on('submit',function(event){
+							event.preventDefault();
+							myLog.myPost();
+							myLog.myValidateFresh();
+						});
+						myPost.init();
+						break;
+					default:break;
 				}
 			}
 		}
