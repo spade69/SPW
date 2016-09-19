@@ -5,7 +5,7 @@ Author Jason
 Date 2016/9/12
 */
 
-define(['verify'],function(verify){
+define(['verify','jquery'],function(verify,jquery){
 	//jquery and querySelector conflict!!
 	//写成function(){..}之类的不行，必须是var xxx=function.
 	//具体看看requirejs源码
@@ -39,13 +39,8 @@ define(['verify'],function(verify){
 		myValidateFresh:function(){
 			var url="http://204d.cn/youtu/getValidateCode";
 			var img=$("#validateImg").on('click',function(){
-				/*$.ajax({
-					type:"GET",
-					url:"http://204d.cn/youtu/getValidateCode",
-					dataType:"jsonp",
-
-				})*/
-			this.attr("src",url);
+				//每设置一次url都会发生一次get请求
+				this.setAttribute("src",url);
 			});
 		}
 
@@ -69,6 +64,20 @@ define(['verify'],function(verify){
 			exform.vPassx(this.xcode,this.passwd,this.xpass);
 			exform.vmail(this.dmail,this.mail);
 			console.log("running myVerify");
+		},
+		signUpPost:function(){
+			var url="http://spw.204d.cn/user/register";
+			//this.userID.val();
+			console.log("running signUpPost");
+			$("#verify").on('click',function(){
+				$("#signUpForm").on('submit',function(event){
+					event.preventDefault();
+					$.post(url,function(data){
+
+						console.log(data);
+					});
+				});
+			});
 		}
 	}
 

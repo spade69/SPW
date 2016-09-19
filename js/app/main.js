@@ -60,16 +60,16 @@ function tab_switch(ele,myLogin,myPosts){
 						var mySignUp=new myLogin.createSignUp('username','passwd','xpasswd','mail',
 							'info','icode','dcodex','dmail');
 						mySignUp.myVerify();
+						mySignUp.signUpPost();
 						break;
 					
 					case 2://Leave Note
 						var myLog=new myLogin.createLogin('btnSignIn','userid','codeid');
 						var myPost=new myPosts.createPosts('posts','txtInput','oContent');
-					
+						myLog.myValidateFresh();
 						$("#btnSignIn").on('submit',function(event){
 							event.preventDefault();
 							myLog.myPost();
-							myLog.myValidateFresh();
 						});
 						myPost.init();
 						break;
