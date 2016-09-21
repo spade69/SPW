@@ -194,7 +194,8 @@ vform.prototype={
 		//var xbtn=inputEles[5];
 		function handle(arg){
 			var flagx=1;
-			for(var i=0;i<5;i++){
+			//5  it depends on how much you use
+			for(var i=0;i<3;i++){
 				if(arg[i]===false)
 				{
 					flagx=0;
@@ -204,13 +205,15 @@ vform.prototype={
 			if(flagx)
 			{
 				alert("格式正确,提交成功！");
+				return true;
 			}
 			else
 			{
 				alert("提交失败，请重新输入");
+				return false;
 			}
 		}
-		addEvent(xbtn,'click',function(){handle(arg);});
+		addEvent(xbtn,'hover',function(){handle(arg);});
 	}
 
 	};//prototype

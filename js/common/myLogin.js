@@ -20,6 +20,7 @@ define(['verify','jquery'],function(verify,jquery){
 			var exform=new verify.vform(this.btn);
 			exform.vName(this.info,this.name);
 			exform.vPasswd(this.icode,this.passwd);
+			exform.vbtn(this.btn);
 		},
 		myPost:function(){
 			//var api="http://204d.cn/youtu/login";
@@ -44,7 +45,7 @@ define(['verify','jquery'],function(verify,jquery){
 			});
 		}
 
-	}
+	};
 
 	var createSignUp=function(username,passwd,xpass,mail,info,icode,xcode,dmail){
 		this.userID=document.getElementById(username);
@@ -55,6 +56,7 @@ define(['verify','jquery'],function(verify,jquery){
 		this.icode=document.getElementById(icode);
 		this.xcode=document.getElementById(xcode);
 		this.dmail=document.getElementById(dmail);
+		this.btn=$("#verify");
 	}
 	createSignUp.prototype={
 		myVerify:function(){
@@ -63,21 +65,46 @@ define(['verify','jquery'],function(verify,jquery){
 			exform.vPasswd(this.icode,this.passwd);
 			exform.vPassx(this.xcode,this.passwd,this.xpass);
 			exform.vmail(this.dmail,this.mail);
+			exform.vbtn(this.btn);
 			console.log("running myVerify");
 		},
 		signUpPost:function(){
-			var url="http://spw.204d.cn/user/register";
-			//this.userID.val();
+			var url="http://spw.linzhida.cc/user/register";
+			var self=this;
+			this.userID.setAttribute("name","username");
+			this.passwd.setAttribute("name","password");
 			console.log("running signUpPost");
+
 			$("#verify").on('click',function(){
 				$("#signUpForm").on('submit',function(event){
 					event.preventDefault();
-					$.post(url,function(data){
-
-						console.log(data);
+					var posting=$.post(url,$("#signUpForm").serialize());
+					posting.done(function(data){
+						//清空所有输入	
+						self.cleanAll();
+						switch(data.result){
+							case 0:
+								break;
+							case 1:
+								alert("Failed!");break;
+							case 2:
+								//做一个div提示email重复
+								break;
+							case 3:
+								//做一个div在旁边提示username重复
+								break;
+							default:break;
+						}
 					});
 				});
 			});
+		},
+		cleanAll:function(){
+			$(this.userID).val("");
+			$(this.passwd).val("");
+			$(this.xpass).val("");
+			$(this.mail).val("");
+
 		}
 	}
 
