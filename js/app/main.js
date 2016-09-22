@@ -41,7 +41,7 @@ function SideBar(ele){
 	//遍历每一个tab,用事件代理捕捉。
 	//1)是绑定所有的孩子和click事件
 	//2) 事件委托，绑定到父元素
-function tab_switch(ele,myLogin,myPosts){
+function tab_switch(ele,myLogin,myPosts,mySignUp){
 	var myEle=$('#'+ele);	
 	myEle.on('click','li a',function(event){
 		$("#tabContent").children().addClass("hidden");
@@ -57,21 +57,23 @@ function tab_switch(ele,myLogin,myPosts){
 						break;
 			
 					case 3:
-						var mySignUp=new myLogin.createSignUp('username','passwd','xpasswd','mail',
+						var mySign=new mySignUp.createSignUp('username','passwd','xpasswd','mail',
 							'info','icode','dcodex','dmail');
-						mySignUp.myVerify();
-						mySignUp.signUpPost();
+						mySign.myVerify();
+						mySign.signUpPost();
 						break;
 					
 					case 2://Leave Note
-						var myLog=new myLogin.createLogin('btnSignIn','userid','codeid');
-						var myPost=new myPosts.createPosts('posts','txtInput','oContent');
+						var myLog=new myLogin.createLogin('btnSignIn','userid','codeid','loginInfo','loginPwd');
+						var myPo=new myPosts.createPosts('posts','txtInput','oContent');
 						myLog.myValidateFresh();
-						$("#btnSignIn").on('submit',function(event){
-							event.preventDefault();
-							myLog.myPost();
-						});
-						myPost.init();
+						myLog.myVerify();
+						myLog.myPost('loginForm','pop');
+						// $("#btnSignIn").on('submit',function(event){
+						// 	event.preventDefault();
+						// 	myLog.myPost();
+						// });
+						myPo.init();
 						break;
 					default:break;
 				}
@@ -93,8 +95,8 @@ function scrollHidden(ele){
 	}
 }
 
-require(['createSideBar','dragMove','getGeoLocation','bootstrap','waterFall','myLogin','myPosts'],
-	function(createSideBar,dragMove,getGeoLocation,bootstrap,waterFall,myLogin,myPosts){
+require(['createSideBar','dragMove','getGeoLocation','bootstrap','waterFall','mySignUp','myLogin','myPosts'],
+	function(createSideBar,dragMove,getGeoLocation,bootstrap,waterFall,mySignUp,myLogin,myPosts){
 	var $ali = $('#tab>li>a');
 	var $li = $('#tab>li');
 	var $ul = $('#tab');
@@ -164,7 +166,7 @@ http and NOT https because of a http resource used below.
 			return "Loading weather data...";
 	});
 
-	tab_switch("tab",myLogin,myPosts);
+	tab_switch("tab",myLogin,myPosts,mySignUp);
 
 });
 

@@ -25,9 +25,10 @@ Modified:2016/09/02
 
 define(['useful'],function(useful){
 //封装属性,这个构造函数意义不大,为什么封装的用不了？
-var vform=function(btn){
+var vform=function(btn,items){
 	this.btn=btn;
 	this.check=new Array(false,false,false,false,false);
+	this.items=items;
 	
 };
 //原型
@@ -191,11 +192,12 @@ vform.prototype={
 
 	vbtn:function(xbtn){
 		var arg=this.check;
+		var count=this.items
 		//var xbtn=inputEles[5];
-		function handle(arg){
+		function handle(arg,count){
 			var flagx=1;
 			//5  it depends on how much you use
-			for(var i=0;i<3;i++){
+			for(var i=0;i<count;i++){
 				if(arg[i]===false)
 				{
 					flagx=0;
@@ -204,16 +206,19 @@ vform.prototype={
 			}
 			if(flagx)
 			{
-				alert("格式正确,提交成功！");
-				return true;
+				//alert("格式正确,提交成功！");
+				xbtn.disabled=false;
 			}
 			else
 			{
-				alert("提交失败，请重新输入");
-				return false;
+				//alert("提交失败，请重新输入");
+				
 			}
 		}
-		addEvent(xbtn,'hover',function(){handle(arg);});
+		//addEvent(xbtn,'mouseover',function(){handle(arg);});
+		setInterval(function(){
+			handle(arg,count);
+		},1000);
 	}
 
 	};//prototype

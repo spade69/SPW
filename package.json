@@ -1,0 +1,25 @@
+{
+  "name": "spw",
+  "version": "1.0.0",
+  "description": "this is a initial test",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-less": "^3.1.0",
+    "gulp-ruby-sass": "^2.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spade69/SPW.git"
+  },
+  "author": "Jason",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spade69/SPW/issues"
+  },
+  "homepage": "https://github.com/spade69/SPW#readme"
+}
