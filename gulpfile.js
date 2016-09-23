@@ -14,3 +14,7 @@ gulp.task('watch',function(){
 
 gulp.task('default',['sass','watch']);
 
+//运行方法 gulp taskname
+//gulp sass 
+//gulp watch
+//or 直接 gulp default

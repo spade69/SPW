@@ -211,8 +211,9 @@ vform.prototype={
 			}
 			else
 			{
-				//alert("提交失败，请重新输入");
 				
+				//alert("提交失败，请重新输入");
+				xbtn.disabled=true;
 			}
 		}
 		//addEvent(xbtn,'mouseover',function(){handle(arg);});

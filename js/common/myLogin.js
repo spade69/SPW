@@ -26,10 +26,10 @@ define(['verify','jquery'],function(verify,jquery){
 		},
 		myPost:function(loginForm,loginInfo){
 			//var api="http://204d.cn/youtu/login";
-			var url="http://spw.linzhida.cc/usr/login";
+			var url="http://spw.linzhida.cc/user/login";
 			//$(".loginForm").attr("action");
 			this.name.setAttribute("name","username");//val() 用于获取输入框的内容
-			this.passwd.setAttribute("name","passwd");
+			this.passwd.setAttribute("name","password");
 			//find操作 获取的是jq对象
 			var validateCode=$("."+loginForm).find("input[name='validateCode']").val();
 			console.log(validateCode);
@@ -43,11 +43,12 @@ define(['verify','jquery'],function(verify,jquery){
 								window.location.href="Main.html";
 								break;
 							case 1:
-								alert("Failed");
+								alert("Failed,problem with username or password");
 								break;
 							case 2:
-								alert("Failed");
+								alert("Failed of validateCode");
 								break;
+							default:break;
 						}
 					});
 				});
@@ -55,7 +56,8 @@ define(['verify','jquery'],function(verify,jquery){
 			
 		},//刷新验证码
 		myValidateFresh:function(){
-			var url="http://204d.cn/youtu/getValidateCode";
+			//http://spw.204d.cn/getValidateCode
+			var url="http://spw.linzhida.cc/getValidateCode";
 			var img=$("#validateImg").on('click',function(){
 				//每设置一次url都会发生一次get请求
 				this.setAttribute("src",url);

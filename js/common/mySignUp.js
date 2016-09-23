@@ -34,6 +34,7 @@ define(['verify','jquery'],function(verify,jquery){
 					event.preventDefault();
 					var posting=$.post(url,$("#signUpForm").serialize());
 					posting.done(function(data){
+						$("#signupInfo").empty();//like innerHTML="";
 						switch(data.result){
 							case 0:
 							//隐藏表单页面，返回成功信息
@@ -41,9 +42,12 @@ define(['verify','jquery'],function(verify,jquery){
 								var $info=$('<p style="background-color:green;color:white">Success!!!<button class="btn btn-danger">Confirm</button></p>');
 								$("#signupInfo").append($info);
 								$('#signUpForm').css("display","none");
+								$("#signupInfo").find("button").on('click',function(){
+									window.location.href="Main.html";//index.html
+								});
 								break;
 							case 1://不隐藏表单页面，
-								var $info1=$('<p style="color:red">Failed to sign up,please try again,later!</p>');
+								var $info1=$('<p style="color:red;width:100%">Failed to sign up,please try again,later!</p>');
 								$("#signupInfo").append($info1);
 								alert("Failed!");break;
 							case 2:
@@ -69,6 +73,7 @@ define(['verify','jquery'],function(verify,jquery){
 			$(this.mail).val("");
 
 		}
+
 	}
 	return{
 		createSignUp:createSignUp
