@@ -1,23 +1,114 @@
 @charset 'utf-8';
+//color variables
 $bgColor:#458B74;
+$bgColorQuote:#e0dfcc; //green
+$fontColor:white; 
+$quoteColor:#218868;//006400
+$fontColor2:#111111; //light black
+$fontColor3:#2F4F4F;//deep green
+$colorLightBlue:#00B2EE;
+$bordercolor:#d3d3d3;
+$authorColor:#5CACEE;
+$fontSize:2em;
+$fontHalfSize:1em;
+$fontNormalSize:1.5em !default;
+$headerDis:10px;
+$headerMarginDis:20px;
+$h3MarginDis:15px;
+$blockquoteDis:50px;
+$blockMargin:20px;
+//$normalMargin:20px !default;
+$normalMargin:40px;
+$normalPadding:10px;
+/*CSS Reset-----------------------------------------------------------------*/
 body,ul,ol,dl,dd,h1,h2,h3,h4,h5,h6,pre,form,fieldset,legend,input,button,textarea,p,blockquote,table,th,td{
 	margin:0;padding:0;
 	box-sizing:content-box;
 }
-.wrap{
-	color:white;
-	margin:0 auto;
-	padding:0;
-	background-color:$bgColor;
-}
 
-.container{
-	margin:0 auto;
-	color:white;
+/*@Basic styles----------------------------------------------------*/
+body#scrapbook{
+	font-size:16px;
 }
 
 blockquote{
-	color:#111111;
+	color:$quoteColor;
 	display:block;
-	background-color:#e0dfcc;
+	background-color:$bgColorQuote;
+	padding:$blockquoteDis;
+	margin:$blockMargin;
+	border-radius:1em;
+	
 }
+pre{
+	padding:$blockquoteDis - 20px;
+	margin:$blockMargin;
+	font-size:$fontSize - 1em;
+	color:$quoteColor;
+	border-radius:1em;
+}
+h3{
+	border-bottom:1px solid $bordercolor;
+	padding:$headerDis;	
+	margin-bottom:$h3MarginDis;
+}
+h4,h5{
+	margin:$normalMargin - 20px;
+	font-size:$fontSize - 1em;
+	border-bottom:1px solid $bordercolor;
+	padding:$normalPadding;
+	margin-bottom:$h3MarginDis;
+}
+
+ul,ol{
+	margin-left:$normalMargin;
+
+}
+p{
+	margin-left:$normalMargin - 20px;
+}
+
+img{
+	width:600px;
+	margin-left:$normalMargin - 20px;
+	margin:15px;
+}
+/*@group page sttucture-------------------------------------------------------*/
+.wrap{
+	color:$fontColor;
+	margin:0 auto;
+	padding:0;
+	background-color:$bgColor;
+}  
+.container{
+	margin:0 auto;
+	color:$fontColor;
+}
+
+.content{
+	font-size:$fontNormalSize;
+}
+
+#header-name{
+	padding:$headerDis;	
+	font-size:$fontSize;
+	border-bottom:1px solid $bordercolor;
+	margin-bottom:$headerMarginDis;
+}
+#header-name a{
+	color:$colorLightBlue;
+}
+
+.asset-meta{
+	padding:$headerDis;	
+	margin-bottom:$headerMarginDis;
+	color:$authorColor
+}
+.asset-meta p{
+	padding:$headerDis;	
+	font-size:$fontHalfSize;
+}
+/*@group page components---------------------------------------------------------------------------*/
+/*@group overrides---------------------------------------------------------------------------*/
+
+

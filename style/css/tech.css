@@ -1,9 +1,61 @@
+/*CSS Reset-----------------------------------------------------------------*/
 body, ul, ol, dl, dd, h1, h2, h3, h4, h5, h6, pre, form, fieldset, legend, input, button, textarea, p, blockquote, table, th, td {
   margin: 0;
   padding: 0;
   box-sizing: content-box;
 }
 
+/*@Basic styles----------------------------------------------------*/
+body#scrapbook {
+  font-size: 16px;
+}
+
+blockquote {
+  color: #218868;
+  display: block;
+  background-color: #e0dfcc;
+  padding: 50px;
+  margin: 20px;
+  border-radius: 1em;
+}
+
+pre {
+  padding: 30px;
+  margin: 20px;
+  font-size: 1em;
+  color: #218868;
+  border-radius: 1em;
+}
+
+h3 {
+  border-bottom: 1px solid #d3d3d3;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+h4, h5 {
+  margin: 20px;
+  font-size: 1em;
+  border-bottom: 1px solid #d3d3d3;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+ul, ol {
+  margin-left: 40px;
+}
+
+p {
+  margin-left: 20px;
+}
+
+img {
+  width: 600px;
+  margin-left: 20px;
+  margin: 15px;
+}
+
+/*@group page sttucture-------------------------------------------------------*/
 .wrap {
   color: white;
   margin: 0 auto;
@@ -16,8 +68,31 @@ body, ul, ol, dl, dd, h1, h2, h3, h4, h5, h6, pre, form, fieldset, legend, input
   color: white;
 }
 
-blockquote {
-  color: #111111;
-  display: block;
-  background-color: #e0dfcc;
+.content {
+  font-size: 1.5em;
 }
+
+#header-name {
+  padding: 10px;
+  font-size: 2em;
+  border-bottom: 1px solid #d3d3d3;
+  margin-bottom: 20px;
+}
+
+#header-name a {
+  color: #00B2EE;
+}
+
+.asset-meta {
+  padding: 10px;
+  margin-bottom: 20px;
+  color: #5CACEE;
+}
+
+.asset-meta p {
+  padding: 10px;
+  font-size: 1em;
+}
+
+/*@group page components---------------------------------------------------------------------------*/
+/*@group overrides---------------------------------------------------------------------------*/

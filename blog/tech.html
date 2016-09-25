@@ -5,32 +5,39 @@
 	<title>Tech Page</title>
 	<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="../style/css/tech.css">
-	<script type="text/javascript"></script>
+	<script type="text/javascript">
+	var isIE=function(){
+	var b=document.createElement('b');
+	b.innerHTML='<!--[if IE]><i></i><![endif]-->';
+	return b.getElementsByTagName('i').length===1;
+	}
+	console.log(isIE());
+	</script>
 </head>
 <body id="scrapbook">
 	<div class="wrap">
 	<div class="container">
 		<div class="row-fluid">
 		<div id="header">
-			<div id="header-name">前端Tips</div><span id="site_location">>><a href="javascript:void(0)" accesskey="1">首页</a></span>
+			<div id="header-name">前端Tips<span id="site_location">&gt;&gt;<a href="javascript:void(0)" accesskey="1">首页</a></span></div>
 		<div id="google-search">
 		<!--SiteSearch Google-->
 		<form></form>
 			</div>
 		</div>
 		
-		<div id="content">
-			<div id="content-inner">
-			<h1 id="page-title" class="">HTML5 Tips</h1>
+		<div class="content">
+			<div class="content-inner">
+			<h1 id="page-title" class="text-center">HTML5 Tips</h1>
 			<div id="share_button" style="float:right;padding-right:2em;padding-top:1em;"></div>
 			<div class="asset-meta">
 				<p class="author">Author: Jason </p>
 				<p>Date: <abbr class="published" title="2016-09-23">2016年9月23日</abbr></p>
 			</div>
 			<div class="asset-content" id="main-content">
-				<h3>兼容性</h3>
+				<h3>〇、兼容性</h3>
 				<p>IE8以及以前版本的浏览器基本不支持。</p>
-				<h3>html5 不赞成使用的标签</h3>
+				<h3>一、<span>HTML5</span>不赞成使用的标签</h3>
 				<blockquote>
 					<ul>
 				<li>&lt;applet&gt; 定义嵌入的applet</li>
@@ -44,7 +51,7 @@
 				<li>&lt;s&gt;定义加删除线	</li>
 					</ul>
 				</blockquote>
-				<h3>H5 新标签 ,主流浏览器支持的</h3>
+				<h3>二、H5 新标签 ,主流浏览器支持的</h3>
 				<p>(有些新标签大多数浏览器不支持就不列出)</p>
 				<div class="sec-content">
 					<ul>
@@ -59,13 +66,13 @@
 				<li>&lt;canvas&gt; 通过脚本绘制图形</li>
 				<li>&lt;datalist&gt;下拉列表
 					<pre><code>
-					&lt;input list="browsers"&gt;
-					&lt;datalist id="browsers"&gt;
-					&lt;option value="x"&gt;
-					&lt;option value="y"&gt;
-					&lt;option value="z"&gt;
-					&lt;option value="a"&gt;
-					&lt;/datalist&gt;
+&lt;input list="browsers"&gt;
+&lt;datalist id="browsers"&gt;
+&lt;option value="x"&gt;
+&lt;option value="y"&gt;
+&lt;option value="z"&gt;
+&lt;option value="a"&gt;
+&lt;/datalist&gt;
 					</code></pre>
 				</li>
 				<li>&lt;embed&gt; 下划线&lt;a&gt;</li>
@@ -76,24 +83,24 @@
 				<li>&lt;progress&gt;标记下载进度<br><img src="../images/progress.png"></li>
 				<li>&lt;video&gt;视频播放
 					<pre><code>
-						&lt;video width="320" height="240" controls&gt;
-						&lt;source src="movie.mp4" type="video/mp4"&gt;
-						&lt;source src="movie.ogg" type="video/ogg"&gt;
-						您的浏览器不支持 video 标签。
-						&lt;/video&gt;
+&lt;video width="320" height="240" controls&gt;
+&lt;source src="movie.mp4" type="video/mp4"&gt;
+&lt;source src="movie.ogg" type="video/ogg"&gt;
+您的浏览器不支持 video 标签。
+&lt;/video&gt;
 					</code></pre>
 				</li>
 					</ul>
 				</div>
 				<div class="third-content">
-					<h3>HTML5数据持久化技术</h3>
+					<h3>三、HTML5数据持久化技术</h3>
 					<ol>
 					<li>Application Cache 本地缓存应用所需的文件</li>
 					<li> Local Storage ; Session Storage 键值对 (key-value)存储数据</li>
 					<li>web SQL </li>
 					<li> IndexDB 索引数据库</li>
 					</ol>
-					<h3>HTML5 应用程序缓存</h3>
+					<h3>四、HTML5 应用程序缓存</h3>
 					<ol>
 						<li>离线浏览</li>
 						<li>速度-已缓存资源加载得更快</li>
@@ -103,7 +110,7 @@
 					Manifest文件有变化才更新
 					一次必须更新Manifest中的所有文件
 					下次才生效:下次打开浏览器才生效</p>
-					<h3>存储方案</h3>
+					<h3>五、存储方案</h3>
 					<ol>
 					<li><p>cache 缓存 ，其实就是在内存
 从DB 磁盘，放在缓存，减少磁盘IO</p></li>	
@@ -112,7 +119,8 @@
 					<li>内存<br>频繁去使用，提高读取效率</li>
 					</ol>
 					<h4>COOKIES</h4>
-					<ul><p>H5之前，一般用cookies</p>
+					<p>H5之前，一般用cookies</p>
+					<ul>
 						<li>a.http请求header上都带着这个cookies</li>
 						<li>b.官方文档对每个域名来说，只会存4Kcookies</li>
 						<li>c.主Domain 污染</li>
@@ -123,7 +131,7 @@
 						解决请求头常带存储信息的问题
 						解决关系型存储的问题
 						跨浏览器</p>
-					<h4>本地存储 localstorage</h4>
+					<h4>本地存储 LocalStorage</h4>
 					<ul>
 						<li>大部分Browser都支持~</li>
 						<li>存储形式 ： key-->value</li>
@@ -149,11 +157,11 @@
 						<li>设置 context  var imgcontext=imgcanvas.getContext('2d');</li>
 						<li>设置画布大小为图片大小</li>
 						<li> imgContext.drawImage(this,0,0,w,h);//在canvas上画图</li>
-						<li> <pre><code>var imgAsDataurl=imgcanvas.toDataURL("image/jpeg",1.0);canvas.toDataURL(type,encoderOptions)</code></pre>
+						<li><br><pre><code>var imgAsDataurl=imgcanvas.toDataURL("image/jpeg",1.0);canvas.toDataURL(type,encoderOptions)</code></pre>
 <p>default:image/png , can be  image/jpeg or..</p></li>
 					</ol>
 					</div>
-					<h4>sessionstorage</h4>
+					<h4>SESSIONSTORAHE</h4>
 					<p>根localstorage相似， 就是新建页面就不存在了。
 关闭浏览器or 重新打开一个tab</p>
 					<h5>判断浏览器是否支持 localstorage</h5>
@@ -177,7 +185,7 @@
 					</ol>
 				</div>
 				<div class="forth-content">
-					<h3>Web SQL 和 IndexedDB</h3>
+					<h3>六、Web SQL 和 IndexedDB</h3>
 					<p>一种能在浏览器中持久地存储结构化数据的数据库，并且为web应用提供了丰富的查询能力</p>
 					<p>浏览器支持程度</p>
 					<table border="1">
@@ -196,15 +204,15 @@
 						</tr>
 						<tr>
 							<td>FireFox</td>
-							<td>4+</td>
+							 <td>4+</td>
 						</tr>
 						<tr>
 							<td>IE</td>
 							<td>10+</td>
 						</tr>
 					</table>
-					<h3>HTML5 元素与标签结构</h3>
-					<p>em>DOCTYPE 及字符编码</p>
+					<h3>七、HTML5 元素与标签结构</h3>
+					<p><em>DOCTYPE 及字符编码</p>
 					<p><em>&lt;!doctype html&gt;
 &lt;meta charset="uft-8"&gt; 文件的字符编码  &lt;html lang="zh-CN"&gt;指定语言</em></p>
 					<p>H5中，不区分标签大小写：如下</p>
@@ -243,7 +251,7 @@
 	</div>
 	</div>
 	<footer>
-		<a href="https://developer.mozilla.org/zh-CN/">JavaScript</a>
+		<a href="https://developer.mozilla.org/zh-CN/" target="_blank">JavaScript</a>
 	</footer>
 </body>
 </html>
