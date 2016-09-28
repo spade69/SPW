@@ -19,7 +19,7 @@
 	<div class="container">
 		<div class="row-fluid">
 		<div id="header">
-			<div id="header-name">前端Tips<span id="site_location">&gt;&gt;<a href="javascript:void(0)" accesskey="1">首页</a></span></div>
+			<div id="header-name">前端Tips<span id="site_location">&gt;&gt;<a href="../Main.html" accesskey="1">首页</a></span></div>
 		<div id="google-search">
 		<!--SiteSearch Google-->
 		<form></form>
@@ -32,7 +32,7 @@
 			<div id="share_button" style="float:right;padding-right:2em;padding-top:1em;"></div>
 			<div class="asset-meta">
 				<p class="author">Author: Jason </p>
-				<p>Date: <abbr class="published" title="2016-09-23">2016年9月23日</abbr></p>
+				<p>Date: <abbr class="published" title="2016-09-23T13:15:13+08:00">2016年9月23日</abbr></p>
 			</div>
 			<div class="asset-content" id="main-content">
 				<h3>〇、兼容性</h3>
@@ -80,7 +80,7 @@
 				<li>&lt;footer&gt;     代替：&lt;em&gt;</li>
 				<li>&lt;header&gt;定义加删除线	</li>		
 				<li>&lt;mark&gt;文字高亮显示</li>	
-				<li>&lt;progress&gt;标记下载进度<br><img src="../images/progress.png"></li>
+				<li>&lt;progress&gt;标记下载进度<br><img id="process" src="../images/progress.png"></li>
 				<li>&lt;video&gt;视频播放
 					<pre><code>
 &lt;video width="320" height="240" controls&gt;
@@ -95,16 +95,16 @@
 				<div class="third-content">
 					<h3>三、HTML5数据持久化技术</h3>
 					<ol>
-					<li>Application Cache 本地缓存应用所需的文件</li>
-					<li> Local Storage ; Session Storage 键值对 (key-value)存储数据</li>
-					<li>web SQL </li>
-					<li> IndexDB 索引数据库</li>
+					<li><p>Application Cache 本地缓存应用所需的文件</p></li>
+					<li><p> Local Storage ; Session Storage 键值对 (key-value)存储数据</p></li>
+					<li><p>web SQL </p></li>
+					<li><p> IndexDB 索引数据库</p></li>
 					</ol>
 					<h3>四、HTML5 应用程序缓存</h3>
 					<ol>
-						<li>离线浏览</li>
-						<li>速度-已缓存资源加载得更快</li>
-						<li>减少服务器负载-浏览器将只从服务器下载更新过或更改过的资源</li>
+						<li><p><mark>离线浏览</mark></p></li>
+						<li><p>速度-已缓存资源加载得更快,</p></li>
+						<li><p>减少服务器负载-浏览器将只从服务器下载更新过或更改过的资源</p></li>
 					</ol>
 					<p>Manifest文件： 列举应用所需的文件，即浏览器被缓存的内容和不缓存的内容Application Cache的浏览器事件，特点：
 					Manifest文件有变化才更新
@@ -115,8 +115,8 @@
 					<li><p>cache 缓存 ，其实就是在内存
 从DB 磁盘，放在缓存，减少磁盘IO</p></li>	
 					<li><p>磁盘文件<br>图片，视频</p></li>
-					<li>数据库<br>索引查询</li>
-					<li>内存<br>频繁去使用，提高读取效率</li>
+					<li><p>数据库<br>索引查询</p></li>
+					<li><p>内存<br>频繁去使用，提高读取效率</p></li>
 					</ol>
 					<h4>COOKIES</h4>
 					<p>H5之前，一般用cookies</p>
@@ -149,46 +149,49 @@
 						</ul>
 					</blockquote>
 					<div>
-					<p>只要能被序列化成字符串，或转化为字符串的都可以存到localstorage~</p>
-					<img src="../images/localstorage.jpg">
-					<p>图片 用canvas来绘制，返回一个base64 的字符串。 canvas支持程度比较全面。</p>
+					<p class="paragraph">只要能被序列化成字符串，或转化为字符串的都可以存到LocalStorage~</p>
+					<img src="../images/LocalStorage.jpg">
+					<p class="paragraph">图片 用canvas来绘制，返回一个base64 的字符串。 canvas支持程度比较全面。</p>
 					<ol>
-						<li> 获取or创建canvas画布</li>
-						<li>设置 context  var imgcontext=imgcanvas.getContext('2d');</li>
-						<li>设置画布大小为图片大小</li>
-						<li> imgContext.drawImage(this,0,0,w,h);//在canvas上画图</li>
+						<li><p>获取or创建canvas画布</p></li>
+						<li><p>设置context  <pre><code>var imgcontext=imgcanvas.getContext('2d');</code></pre></p></li>
+						<li><p>设置画布大小为图片大小</p></li>
+						<li><p>imgContext.drawImage(this,0,0,w,h);//在canvas上画图</p></li>
 						<li><br><pre><code>var imgAsDataurl=imgcanvas.toDataURL("image/jpeg",1.0);canvas.toDataURL(type,encoderOptions)</code></pre>
-<p>default:image/png , can be  image/jpeg or..</p></li>
+<p class="default-info">default:image/png, can be  image/jpeg or..</p></li>
 					</ol>
 					</div>
 					<h4>SESSIONSTORAHE</h4>
-					<p>根localstorage相似， 就是新建页面就不存在了。
+					<p>根LocalStorage相似， 就是新建页面就不存在了。
 关闭浏览器or 重新打开一个tab</p>
-					<h5>判断浏览器是否支持 localstorage</h5>
-					<p>判断window.localStorage不健全。</p>
+					<h5>判断浏览器是否支持 LocalStorage</h5>
+					
 					<ul>
+						<li>判断window.localstorage不健全。</li>
 						<li>可以set 一下，对这个set块异常捕获</li>
 						<li>写数据要异常处理，避免超出容量抛错</li>
-						<li>避免把敏感的信息存入 localstorage</li>
+						<li>避免把敏感的信息存入 LocalStorage</li>
 					</ul>
-					<p>使用限制： localstorage只存客户端，一般服务端无法访问</p>
+					<h5>使用限制： LocalStorage只存客户端，一般服务端无法访问</h5>
 					<ol>
-						<li>存储更新策略，过期控制</li>
-						<li>子域名之间不能共享存储数据，cookie则可以共享存储数据</li>
-						<li>超出存储大小之后如何存储？FIFO LRU</li>
-						<li>server端如何取到，一般跟在http get post相应参数后面</li>
+						<li><p>存储更新策略，过期控制</p></li>
+						<li><p>子域名之间不能共享存储数据，cookie则可以共享存储数据</p></li>
+						<li><p>超出存储大小之后如何存储？FIFO LRU</p></li>
+						<li><p>server端如何取到，一般跟在http get post相应参数后面</p></li>
 					</ol>
+					<h5>使用优势</h5>
 					<ol>
-						<li>利用本地数据，减少网络传输
- 大型网站，脚本样式等都会放本地</li>
-						<li>弱网络，高延迟，低带宽，尽量本地数据。</li>
+						<li><p>利用本地数据，减少网络传输
+ 大型网站，脚本样式等都会放本地</p></li>
+						<li><p>弱网络，高延迟，低带宽，尽量本地数据。</p></li>
 					</ol>
 				</div>
 				<div class="forth-content">
 					<h3>六、Web SQL 和 IndexedDB</h3>
 					<p>一种能在浏览器中持久地存储结构化数据的数据库，并且为web应用提供了丰富的查询能力</p>
 					<p>浏览器支持程度</p>
-					<table border="1">
+					<div class="table-responsive">
+					<table class="table table-bordered">
 						<tr>
 							<th>Browser </th>
 							<th>Basic Support </th>
@@ -211,17 +214,19 @@
 							<td>10+</td>
 						</tr>
 					</table>
+					</div>
 					<h3>七、HTML5 元素与标签结构</h3>
-					<p><em>DOCTYPE 及字符编码</p>
+					<p><strong>DOCTYPE 及字符编码</strong></strong></p>
 					<p><em>&lt;!doctype html&gt;
 &lt;meta charset="uft-8"&gt; 文件的字符编码  &lt;html lang="zh-CN"&gt;指定语言</em></p>
-					<p>H5中，不区分标签大小写：如下</p>
+					<p><strong>H5中，不区分标签大小写：如下</strong></p>
 					<p><em>&lt;Input tYpe=Radio&gt;</em></p>
-					<p>顺带提一下，单双引号都可以。甚至不写引号：如下</p>
+					<p><strong>顺带提一下，单双引号都可以。甚至不写引号：如下</strong></p>
 					<p><em>&lt;input type=radio&gt;</em></p>
-					<p>布尔值 即原来的checked="checked" 可以直接用 checked代替。</p>
+					<p><strong>布尔值 即原来的checked="checked" 可以直接用 checked代替。</strong></p>
 					<p><em>&lt;input type="checkbox" checked/&gt;</em></p>
-					<table border="2">
+					<div class="">
+					<table class="table table-bordered">
 						<tr>
 							<th>结构标签</th>
 							<th>媒体标签</th>
@@ -230,19 +235,20 @@
 						<tr>
 							<td>section</td>
 							<td>video</td>
-							<td></td>
+							<td>datalist</td>
 						</tr>
 						<tr>
 							<td>article</td>
 							<td>audio</td>
-							<td></td>
+							<td>keygen</td>
 						</tr>
 						<tr>
 							<td>aside</td>
 							<td>embed</td>
-							<td></td>
+							<td>output</td>
 						</tr>
 					</table>
+					</div>
 				</div>
 			</div>
 			</div>		
@@ -250,8 +256,12 @@
 		</div>
 	</div>
 	</div>
-	<footer>
-		<a href="https://developer.mozilla.org/zh-CN/" target="_blank">JavaScript</a>
+	<footer class="footer">
+		<a href="https://developer.mozilla.org/zh-CN/" target="_blank">JavaScript MDN</a> |
+	
+			<a href="javascript:void(0)">联系方式</a> | 
+			<span>linzhida.cc 2016</span>
+		
 	</footer>
 </body>
 </html>

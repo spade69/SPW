@@ -9,6 +9,7 @@ $fontColor3:#2F4F4F;//deep green
 $colorLightBlue:#00B2EE;
 $bordercolor:#d3d3d3;
 $authorColor:#5CACEE;
+$baseFontSize:16px;
 $fontSize:2em;
 $fontHalfSize:1em;
 $fontNormalSize:1.5em !default;
@@ -20,6 +21,7 @@ $blockMargin:20px;
 //$normalMargin:20px !default;
 $normalMargin:40px;
 $normalPadding:10px;
+$dist: 10px 15px 20px 40px 50px;//array of pixel
 /*CSS Reset-----------------------------------------------------------------*/
 body,ul,ol,dl,dd,h1,h2,h3,h4,h5,h6,pre,form,fieldset,legend,input,button,textarea,p,blockquote,table,th,td{
 	margin:0;padding:0;
@@ -28,7 +30,7 @@ body,ul,ol,dl,dd,h1,h2,h3,h4,h5,h6,pre,form,fieldset,legend,input,button,textare
 
 /*@Basic styles----------------------------------------------------*/
 body#scrapbook{
-	font-size:16px;
+	font-size:$baseFontSize;
 }
 
 blockquote{
@@ -51,6 +53,7 @@ h3{
 	border-bottom:1px solid $bordercolor;
 	padding:$headerDis;	
 	margin-bottom:$h3MarginDis;
+	margin:$blockMargin;
 }
 h4,h5{
 	margin:$normalMargin - 20px;
@@ -62,7 +65,7 @@ h4,h5{
 
 ul,ol{
 	margin-left:$normalMargin;
-
+	
 }
 p{
 	margin-left:$normalMargin - 20px;
@@ -72,6 +75,13 @@ img{
 	width:600px;
 	margin-left:$normalMargin - 20px;
 	margin:15px;
+}
+table{
+	margin-left:$normalMargin - 20px;
+}
+em{
+	margin:$normalMargin;
+	line-height:nth($dist,5);
 }
 /*@group page sttucture-------------------------------------------------------*/
 .wrap{
@@ -102,12 +112,47 @@ img{
 .asset-meta{
 	padding:$headerDis;	
 	margin-bottom:$headerMarginDis;
-	color:$authorColor
+	color:$authorColor;
 }
 .asset-meta p{
 	padding:$headerDis;	
 	font-size:$fontHalfSize;
 }
+
+#process{
+	width:400px;
+}
+.default-info{
+	font-size:$baseFontSize * 1.2;
+}
+
+.third-content{
+	margin-top:$normalMargin;
+	margin-bottom:$normalMargin;
+}
+/*nesting*/
+.third-content{
+	.paragraph{
+	margin-top:$normalMargin;
+	margin-bottom:$normalMargin - 20px;
+	}
+}
+.footer{
+	border-top:1px solid $bordercolor;//
+	background-color:$bgColor;
+	color:$fontColor;
+	padding-left:50%;
+	padding-top:nth($dist,1);
+	padding-bottom:nth($dist,3);
+}
+
+.footer{
+	a{
+		color:$authorColor;
+		font-weight: bold;
+	}
+}
+
 /*@group page components---------------------------------------------------------------------------*/
 /*@group overrides---------------------------------------------------------------------------*/
 

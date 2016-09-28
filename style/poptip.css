@@ -6,7 +6,7 @@
     position:fixed;
     top:0;
 }
-#login{
+.funcara #login{
     display:inline-block;
     text-align:center;
     width:3em;
@@ -48,11 +48,10 @@
 
 /* poptip */
 .poptip{
-
     position: absolute;
     width:350px;
     height: 320px;
-	top: 10%;left:25%;
+	top: 5px;left:25%;
 	padding: 6px 10px 5px;
 	line-height: 16px;color: #DB7C22;font-size: 12px;
 	background-color: #FFFCEF;border: solid 1px #FFBB76;

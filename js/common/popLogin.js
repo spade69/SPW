@@ -103,8 +103,8 @@ define(['useful'],function(useful){
 			var elW=ele.offsetWidth;
 			var elH=ele.offsetHeight;
 
-			ele.style.left=(bodyW-elW)/2+"px";
-			ele.style.top=(bodyH-elH)/2+"px";
+			ele.style.left=(bodyW-elW)/4+"px";
+			ele.style.top="100px";
 		},
 		//使元素自动全屏
 		fillToBody:function(ele){

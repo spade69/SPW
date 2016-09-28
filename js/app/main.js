@@ -51,10 +51,20 @@ function tab_switch(ele,myLogin,myPosts,mySignUp){
 				$("#tabContent").children().eq(i).removeClass("hidden");
 				switch(i)
 				{//Graph
-					case 4:
-						getPhoto('gallery');
-						waterfall('gallery','box');
-						break;
+					case 4:					
+					var count=1;	
+					init('gallery');
+					window.onscroll=function(){
+						if(checkScrollSlide('gallery','box')&&count<97){
+							//var oParent=document.getElementById(parent);
+							//let data reder behind将数据块加载到页面尾部
+							getPhoto('gallery',count);
+							waterfall('gallery','box');
+							count++;
+						}
+			
+					}
+					break;
 			
 					case 3:
 						var mySign=new mySignUp.createSignUp('username','passwd','xpasswd','mail',
@@ -74,6 +84,9 @@ function tab_switch(ele,myLogin,myPosts,mySignUp){
 						// 	myLog.myPost();
 						// });
 						myPo.init();
+						break;
+					case 1:
+						window.location.href="blog/tech.html";
 						break;
 					default:break;
 				}

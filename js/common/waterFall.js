@@ -94,43 +94,30 @@ define(['jquery'],function(jquery){
 		//混杂模式 标准模式！
 		var scrollTop=document.body.scrollTop||document.documentElement.scrollTop;
 		var height=document.documentElement.clientHeight||document.body.clientHeight;
+		//
 		return (lastBoxH<scrollTop+height);
 	}
-	getPhoto=function(parent){
-		//return json dataInt={"data":[{"src":"0.jpg"},{"src","1.jpg"},....]};
+	init=function(parent){
 		var urlBase="http://119.29.165.186/balight/file/photos/";
 		var oParent=document.getElementById(parent);
 		oParent.innerHTML="<div class='box'><div class='pic'><img src='"+urlBase+"0.jpg'></div></div>";
-		for (var i = 1; i <97; i++) {
-				var oBox=document.createElement('div');
-				oBox.className='box';
-				oParent.appendChild(oBox);
-				var oPic=document.createElement('div');
-				oPic.className='pic';
-				oBox.appendChild(oPic);
-				var oImg=document.createElement('img');
-				oImg.src=urlBase+i+".jpg";
-				oPic.appendChild(oImg);
-		}
-		var count=23;
-/*		window.onscroll=function(){
-			if(checkScrollSlide&&count<93){
-				//var oParent=document.getElementById(parent);
-				//let data reder behind将数据块加载到页面尾部
-				//93 length of data
-				count++;
-				var oBox=document.createElement('div');
-				oBox.className='box';
-				oParent.appendChild(oBox);
-				var oPic=document.createElement('div');
-				oPic.className='pic';
-				oBox.appendChild(oPic);
-				var oImg=document.createElement('img');
-				oImg.src=urlBase+count+".jpg";
-				oPic.appendChild(oImg);
-				
-			}
-		}
-*/
+	}
+	getPhoto=function(parent,count){
+		//return json dataInt={"data":[{"src":"0.jpg"},{"src","1.jpg"},....]};
+		var urlBase="http://119.29.165.186/balight/file/photos/";
+		var oParent=document.getElementById(parent);
+		//for (var i = 1; i <23; i++) {
+			var oBox=document.createElement('div');
+			oBox.className='box';
+			oParent.appendChild(oBox);
+			var oPic=document.createElement('div');
+			oPic.className='pic';
+			oBox.appendChild(oPic);
+			var oImg=document.createElement('img');
+			oImg.src=urlBase+count+".jpg";
+			oPic.appendChild(oImg);
+		//}
+	
+
 	}
 });
