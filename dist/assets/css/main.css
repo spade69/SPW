@@ -1,0 +1,331 @@
+ 
+  /*@clear all */
+ *{
+  margin:0;
+  padding: 0;
+  list-style: none;
+  vertical-align: baseline;
+}
+
+
+.current{color:#086ed5 !important;
+  background-color:white !important;}
+.wrap{width:1024px;margin: 0 auto;padding: 0;}
+body{
+  background-image:url(../images/background.jpg);
+  /*background-repeat: no-repeat;*/
+  background-clip:content-box;
+  background-size: contain;
+  }
+    .main{
+      width:100%;
+      overflow: hidden;
+      background-color: transparent;
+      position: relative;
+    }
+    .top{
+      margin:0;
+      color:white;
+    }
+    .person{
+      position: relative;
+    }
+    .person a{
+      height:60px;
+    }
+    .person a img{
+        position:absolute;
+        left:100px;
+    }
+    /*@nav*/
+    .navbar-default{
+      background:linear-gradient(to bottom right,#086ed5,#055db5);
+      color:white;
+      border-radius: 10px;
+      /*boxshadow: X偏移 Y偏移 [阴影模糊半径][阴影扩展半径][阴影颜色]*/
+      box-shadow: 0px 8px 0px #044e97;
+      margin-top: 20px;
+    }
+    .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{
+      background-color:white;
+    }
+    .navbar-default .navbar-nav>li>a{color: white;}
+
+    #tab>li{
+      display: inline;
+      border-right: 1px solid #94c0be;
+    }
+    #tab>li:last-child{border-right:none;}
+
+    #tab li a{
+      /*字体更清晰*/
+      -webkit-font-smoothing:antialiased;
+      -moz-font-smoothing:antialiased;
+      font-smoothing:antialiased;
+      overflow:visible; 
+      line-height: 20px;
+      font-size: 18px;
+      padding: 15px 25px 15px 26px;
+    }
+
+/*@three-d*/
+    .three-d{
+      -webkit-perspective:200px;
+      -moz-perspective:200px;
+      -ms-perspective:200px;
+      -o-perspective:200px;
+      perspective:200px;
+
+      -webkit-transition:all .7s ease;
+      -moz-transition:all .7s ease;
+      -ms-transition:all .7s ease;
+      -o-transition:all .7s ease;
+      transition:all .7s ease;
+      position: relative;
+    }
+
+    .three-d:not(.active):hover{cursor: pointer;}
+    .three-d:not(.active):hover .three-d-box,
+    .three-d:not(.active):focus .three-d-box {
+      -webkit-transform:translateZ(-25px) rotateX(90deg);
+      -moz-transform:translateZ(-25px) rotateX(90deg);
+      transform:translateZ(-25px) rotateX(90deg);
+    }
+
+    .three-d-box{
+      -webkit-transition:all .3s ease-out;
+      -moz-transition:all .3s ease-out;
+      -ms-transition:all .3s ease-out;
+      -o-transition:all .3s ease-out;
+      transition:all .3s ease-out;
+      -webkit-transform: translateZ(-25px);
+      -moz-transform: translateZ(-25px);
+      -ms-transform: translateZ(-25px);
+      -o-transform: translateZ(-25px);
+      transform:translateZ(-25px);
+      -webkit-transform-style: preserve-3d;
+      -moz-transform-style: preserve-3d;
+      -ms-transform-style: preserve-3d;
+      -o-transform-style: preserve-3d;
+      transform-style:preserve-3d;
+      position: absolute;
+      pointer-events:none;
+      top:0;left: 0;
+      display: block;
+      width: 100%;height: 100%;
+    }
+
+    .front{
+      -webkit-transform: rotateX(0deg) translateZ(25px);
+      -moz-transform: rotateX(0deg) translateZ(25px);
+      -ms-transform: rotateX(0deg) translateZ(25px);
+      -o-transform: rotateX(0deg) translateZ(25px);
+      transform:rotateX(0deg) translateZ(25px);
+    }
+    .back{   
+      -webkit-transform:rotateX(-90deg) translateZ(25px);
+      -moz-transform:rotateX(-90deg) translateZ(25px);
+      -ms-transform:rotateX(-90deg) translateZ(25px);
+      -o-transform:rotateX(-90deg) translateZ(25px);
+      transform:rotateX(-90deg) translateZ(25px);
+      color: white;
+    }
+    .front,.back{
+      display: block;
+      width: 100%;height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding:15px 25px 15px 26px;
+      color: white;
+      pointer-events:none;
+      background: #086ed5;
+      box-sizing:border-box;
+      -webkit-pointer-events: none;
+      -moz-pointer-events: none;
+      -ms-pointer-events: none;
+      -o-pointer-events: none;
+      pointer-events: none;
+    }
+  /*获得焦点处于active状态的样式*/
+    #tab li .active .front,
+    #tab li .active .back,
+    #tab li a:hover .front,
+    #tab li a:hover .back{
+      background-color:#044e97;
+      background-size:5px 5px;
+      background-position: 0 0,30px 30px;
+    }
+    /*tab 是ul， 以下样式是作用于嵌套ul，也就是#tab的子列表*/
+    #tab ul{
+      position:absolute;
+      text-align:left;
+      line-height: 20px;
+      font-size: 18px;
+      width: 200px
+      -webkit-transition:all 0.3s ease-in;
+      -moz-transition:all 0.3s ease-in;
+      -o-transition:all 0.3s ease-in;
+      -ms-transition:all 0.3s ease-in;
+      transition:all 0.3s ease-in;
+      -webkit-transform-origin:0px 0px;
+      -moz-transform-origin:0px 0px;
+      -o-transform-origin:0px 0px;
+      -ms-transform-origin:0px 0px;
+      transform-origin:0px 0px;
+      -webkit-transform: rotateX(-90deg);
+      -moz-transform: rotateX(-90deg);
+      -ms-transform: rotateX(-90deg);
+      -o-transform: rotateX(-90deg);
+      transform: rotateX(-90deg);
+    }
+
+    #tab>li:hover ul{
+      display: block;
+      transform:rotateX(0deg);
+      -webkit-transform:rotateX(0deg);
+      -moz-transform:rotateX(0deg);
+      -o-transform:rotateX(0deg);
+      -ms-transform:rotateX(0deg);
+    }
+    .foot{
+      width: 1024px;
+      height: 100px;
+      background: red;
+      margin:0 auto;
+    }
+    .left{
+      position:absolute;
+      /*
+      float:left; 
+      background: green;
+      */
+      z-index: 1000;
+      border: 5px solid #044e97;
+    }
+    #weather{
+      background-color:#044e97;
+      border: 5px solid white;
+      color:white;
+      margin:0 auto;
+      padding-left: 20px;
+    }
+    .content{
+      position: absolute;
+      /*margin-left: 200px;*/
+    }
+
+    .content .item{
+      height:560px;
+    }
+
+    /*响应式适应 调整sidebar的位置*/
+    .sidebar{
+      width: 100px;
+      left:740px;
+      top: 100px;
+      position: fixed;       
+    }
+    @media screen and (min-width:900px){
+      .sidebar{
+      left:900px;
+      }
+    }
+    @media screen and (max-width:900px) and (min-width:700px){
+      .sidebar{
+        left:760px;
+      }
+    }
+    @media screen and (max-width:700px) and (min-width:500px){
+      .sidebar{
+        left:580px;
+      }
+    }
+    @media screen and (max-width:480px){
+      .sidebar{
+        display: none;
+      }
+    }
+
+    .sidebar li a{
+      color:#044e97;
+      display: block;
+   
+      font-size: 14px;
+      font-weight: bold;
+    
+      line-height: 50px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .sidebar li a:hover,
+    .sidebar li a.currentx{
+      color:#FFF;
+      background-color:#0088bb; 
+    }
+
+    #fill{
+      width: 200px;
+      height: 3000px;
+      float: right;
+      background-color: transparent;
+    }
+
+
+    #gallery{position: relative;}
+
+    .box{
+      padding: 15px 0 0 15px;
+      float: left;
+    }
+    /*白色外边框+阴影+内边距*/
+    .pic{
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 0 5px #ccc;
+    }
+
+    .pic img{
+      width:165px;
+      height: auto; 
+      /*it's really useful set to auto */
+    }
+    .loginForm{
+      padding: 10px 0 0 20px;
+      margin-right: 20px;
+      position: relative;
+    }
+
+    .loginForm .validate input{
+      width: 80px;
+    }
+    .loginForm .validate img{
+      left: 100px;
+      bottom:3px;
+      position:absolute;
+    }
+
+    .loginForm #btnSignIn{
+      width: 350px;
+      margin-top: 10px;
+    }
+  
+    #signup{
+      position: fixed;
+      color:white;
+    }
+    #signup p{
+      width: 140px;
+      background-color:#086ed5;
+      font-size:20px;
+      font:bold "helvetica neue", helvetica, arial, sans-serif;
+      border-radius:8px;
+      border-top:1px solid #1f58cc;
+      border-right:1px solid #1b4db3;
+      border-bottom: 1px solid #174299;
+      border-left: 1px solid #1b4db3;
+      box-shadow: inset 0 0 2px 0 rgba(57, 140, 255, 0.8);
+      text-align: left;
+    }

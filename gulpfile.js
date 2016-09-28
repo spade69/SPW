@@ -8,7 +8,8 @@ var gulp=require('gulp'),
 	uglify=require('gulp-uglify'),
 	concat=require('gulp-concat'),
 	imagemin=require('gulp-imagemin'),
-	cache=require('gulp-cache');	
+	cache=require('gulp-cache'),
+	del=require('del');
 
 
 //定义一个styles任务 Compile Sass,Autoprefix and minify
@@ -45,10 +46,14 @@ gulp.task('images',function(){
 		.pipe(gulp.dest('dist/assets/img'))
 		.pipe(notify({message:'Images task complete'}));
 });
-
-//current prefix
-gulp.task('watch',function(){
-	gulp.watch('style/scss/*.scss',['sass']);
+//clean
+gulp.task('clean',function(){
+	return del(['dist/assets/css','dist/assets/js','dist/assets/img']);
+});
+	
+//default
+gulp.task('default',['clean'],function(){
+	gulp.start('styles','scripts','images');
 });
 
 gulp.task('testPreFx',function(){
@@ -61,9 +66,8 @@ gulp.task('testPreFx',function(){
 	.pipe(gulp.dest('style/test'));
 });
 
-gulp.task('default',['testPreFx','watch']);
+//gulp.task('default',['testPreFx','watch']);
 
 //运行方法 gulp taskname
-//gulp sass 
-//gulp watch
+
 //or 直接 gulp default

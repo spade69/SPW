@@ -271,10 +271,20 @@ function tab_switch(ele,myLogin,myPosts,mySignUp){
 				$("#tabContent").children().eq(i).removeClass("hidden");
 				switch(i)
 				{//Graph
-					case 4:
-						getPhoto('gallery');
-						waterfall('gallery','box');
-						break;
+					case 4:					
+					var count=1;	
+					init('gallery');
+					window.onscroll=function(){
+						if(checkScrollSlide('gallery','box')&&count<97){
+							//var oParent=document.getElementById(parent);
+							//let data reder behind将数据块加载到页面尾部
+							getPhoto('gallery',count);
+							waterfall('gallery','box');
+							count++;
+						}
+			
+					}
+					break;
 			
 					case 3:
 						var mySign=new mySignUp.createSignUp('username','passwd','xpasswd','mail',
@@ -399,35 +409,67 @@ require(['popLogin'],function(popLogin){
 	afloat.autoCenter('pop');
 	afloat.resizable('pop');
 });
-define(['jquery'],function(jquery){
+define(['jquery','localStorageImg'],function(jquery,localStorageImg){
 	return function(ele){
-	// createSideBar(ele)
-	//创建几个选项tap并用bootstrap附上样式
-	//注意插入到Main.html，但是直接写/images/headPhoto.png是不对的,要使用相对路径
-	var $personal=$('<div><img src="./images/headPhoto.png" class="img-circle"></div>');
-	var $tap=$('<a id="tap" href="#" class="list-group-item active"><span class="glyphicon glyphicon-tag"></span>Content</a>');
-	var $tap1=$('<a id="tap1" href="#" class="list-group-item active"><span class="glyphicon glyphicon-tag"></span>Gallery</a>');
-	ele.append($personal);
-	ele.append($tap);
-	ele.append($tap1);
-	ele.find("img").css({
-		"width":"150px",
-		"height":"150px",
-		"left":"50px",
-		"position":"relative"
-	});
-	//<div id="person_img">
-	ele.find("img").on("click",function(){
-		console.log($(this));
-		$(this).animate({
-			 "margin-left":"20px",
-			 //left:"toggle"
-		},300);
-	});
+		// createSideBar(ele)
+		//创建几个选项tap并用bootstrap附上样式
+		//注意插入到Main.html，但是直接写/images/headPhoto.png是不对的,要使用相对路径
+		var $personal=$('<div><img src="./images/headPhoto.png" class="img-circle"></div>');
+		var $tap=$('<a id="git" href="#" class="list-group-item active"><span class="glyphicon glyphicon-tag"></span>GitHub</a>');
+		var $tap1=$('<a id="mail" href="javascript:void(0)" class="list-group-item active"><span class="glyphicon glyphicon-tag"></span>Mail</a>');
+		var $tap2=$('<a id="weibo" href="#" class="list-group-item active"><span class="glyphicon glyphicon-tag"></span>Weibo</a>');
+		ele.append($personal);
+		ele.append($tap);
+		ele.append($tap1);
+		ele.append($tap2);
+		ele.find("img").css({
+			"width":"150px",
+			"height":"150px",
+			"left":"50px",
+			"position":"relative"
+		});
+		//<div id="person_img">
+		ele.find("img").on("click",function(){
+			console.log($(this));
+			$(this).animate({
+				 "margin-left":"20px",
+				 //left:"toggle"
+			},300);
+		});
 
-	ele.on('dragstart',function(){
-		return false;
-	});
+		//transfer to DOM object
+		$('#git')[0].title="My GitHub";
+		$('#weibo')[0].title="Sina WeiBo";
+		$("#mail")[0].title="jlin991@gmail.com"
+		$('#git').on('click',function(){
+			//直接修改a的属性即可,注意这是一个jq对象，说明了
+			//jq中也支持这些原生的属性
+			this.href="https://github.com/spade69";
+			this.target="_blank";
+		});
+		$('#weibo').on('click',function(){
+			this.href="http://weibo.com/spade69";
+			this.target="_blank";
+		})
+		$("#mail").on('click',function(){
+			this.target="_blank";
+			this.href="Gmail:jlin991@gmail.com";
+		})
+
+		//dragstart default response?
+		ele.on('dragstart',function(){
+			return false;
+		});
+		//var urlBase="http://119.29.165.186/balight/file/photos/weibo.png";
+		var storage=new localStorageImg.createStorage('images/weibo.png',$('#weibo')[0]);
+		var gitStorage=new localStorageImg.createStorage('images/github.png',$('#git')[0]);
+		var mailStorage=new localStorageImg.createStorage('images/gmail.png',$('#mail')[0]);
+		storage.set('weiboImg','png');
+		storage.get('weiboImg');
+		gitStorage.set('gitImg','png');
+		gitStorage.get('gitImg');
+		mailStorage.set('mailImg','png');
+		mailStorage.get('mailImg');
 	}
 });
 function getQuote() {
@@ -655,42 +697,56 @@ define(['jquery'],function(jquery){
 /*Canvas transfer img to Base64 string 
 Author:Jason
 */
+define(function(){
+	var createStorage=function(imgPath,ele){
+		this.src=imgPath;//var src="xxx.jpg";
+		this.ele=ele;
+	}
 
-var src="xxx.jpg";
+	createStorage.prototype={
+		set:function(key,imgType){
+			var img=document.createElement('img');
+			//img.setAttribute('crossOrigin','annonymous');
+			//当图片加载完成时触发回调函数
+			img.src=this.src;
+			img.addEventListener('load',function(){
+				var imgcanvas=document.createElement("canvas");
+				var imgContext=imgcanvas.getContext("2d");
+				imgcanvas.style.width="50px";//CANVAS大小
+				imgcanvas.style.height="50px";
+				//确保canvas元素的大小和图片尺寸一致
+				//渲染图片到canvas中 定位以及宽高
+				// context.drawImage(img,x,y,width,height);
+				imgContext.drawImage(this,0,0,300,110);
+				//用data url形式取出
+				var imgAsDataURL=imgcanvas.toDataURL("image/"+imgType);
 
-function set(key){
-	var img=document.createElement('img');
-	//当图片加载完成时触发回调函数
-	img.addEventListener('load',function(){
-		var imgcanvas=document.createElement("canvas");
-		var imgContext=imgcanvas.getContext("2d");
-		//确保canvas元素的大小和图片尺寸一致
-		imgcanvas.width=this.width;
-		imgcanvas.height=this.height;
+				//保存到本地存储中
+				try{
+					localStorage.setItem(key,imgAsDataURL);//存到localstorage~！
+				}catch(e){
+					console.log("Storage failed:"+e);
+				}
+			},false);
+			
+		},
 
-		//渲染图片到canvas中 定位以及宽高
-		// context.drawImage(img,x,y,width,height);
-		imgContext.drawImage(this,0,0,this.width,this.height);
-		//用data url形式取出
-		var imgAsDataURL=imgcanvas.toDataURL("image/png");
-
-		//保存到本地存储中
-		try{
-			localStorage.setItem(key,imgAsDataURL);//存到localstorage~！
-		}catch(e){
-			console.log("Storage failed:"+e);
+		get:function(key){//从本地缓存取图片并渲染
+			var srcStr=localStorage.getItem(key);
+			var imgObj=document.createElement('img');
+			imgObj.src=srcStr;
+			imgObj.style.width="50px"; //这个会截断图片
+			imgObj.style.height="60px";
+			imgObj.style.marginLeft="20px";
+			//document.body.appendChild(imgObj);
+			this.ele.appendChild(imgObj);
 		}
-	},false);
-	img.src=src;
-}
+	}
 
-function get(key){//从本地缓存取图片并渲染
-	var srcStr=localStorage.getItem(key);
-	var imgObj=document.createElement('img');
-	imgObj.src=srcstr;
-	document.body.appendChild(imgObj);
-}
-
+	return{
+		createStorage:createStorage
+	}
+});
 
 /*
 My Login  module source
@@ -1000,8 +1056,8 @@ define(['useful'],function(useful){
 			var elW=ele.offsetWidth;
 			var elH=ele.offsetHeight;
 
-			ele.style.left=(bodyW-elW)/2+"px";
-			ele.style.top=(bodyH-elH)/2+"px";
+			ele.style.left=(bodyW-elW)/4+"px";
+			ele.style.top="100px";
 		},
 		//使元素自动全屏
 		fillToBody:function(ele){
@@ -1532,44 +1588,31 @@ define(['jquery'],function(jquery){
 		//混杂模式 标准模式！
 		var scrollTop=document.body.scrollTop||document.documentElement.scrollTop;
 		var height=document.documentElement.clientHeight||document.body.clientHeight;
+		//
 		return (lastBoxH<scrollTop+height);
 	}
-	getPhoto=function(parent){
-		//return json dataInt={"data":[{"src":"0.jpg"},{"src","1.jpg"},....]};
+	init=function(parent){
 		var urlBase="http://119.29.165.186/balight/file/photos/";
 		var oParent=document.getElementById(parent);
 		oParent.innerHTML="<div class='box'><div class='pic'><img src='"+urlBase+"0.jpg'></div></div>";
-		for (var i = 1; i <97; i++) {
-				var oBox=document.createElement('div');
-				oBox.className='box';
-				oParent.appendChild(oBox);
-				var oPic=document.createElement('div');
-				oPic.className='pic';
-				oBox.appendChild(oPic);
-				var oImg=document.createElement('img');
-				oImg.src=urlBase+i+".jpg";
-				oPic.appendChild(oImg);
-		}
-		var count=23;
-/*		window.onscroll=function(){
-			if(checkScrollSlide&&count<93){
-				//var oParent=document.getElementById(parent);
-				//let data reder behind将数据块加载到页面尾部
-				//93 length of data
-				count++;
-				var oBox=document.createElement('div');
-				oBox.className='box';
-				oParent.appendChild(oBox);
-				var oPic=document.createElement('div');
-				oPic.className='pic';
-				oBox.appendChild(oPic);
-				var oImg=document.createElement('img');
-				oImg.src=urlBase+count+".jpg";
-				oPic.appendChild(oImg);
-				
-			}
-		}
-*/
+	}
+	getPhoto=function(parent,count){
+		//return json dataInt={"data":[{"src":"0.jpg"},{"src","1.jpg"},....]};
+		var urlBase="http://119.29.165.186/balight/file/photos/";
+		var oParent=document.getElementById(parent);
+		//for (var i = 1; i <23; i++) {
+			var oBox=document.createElement('div');
+			oBox.className='box';
+			oParent.appendChild(oBox);
+			var oPic=document.createElement('div');
+			oPic.className='pic';
+			oBox.appendChild(oPic);
+			var oImg=document.createElement('img');
+			oImg.src=urlBase+count+".jpg";
+			oPic.appendChild(oImg);
+		//}
+	
+
 	}
 });
 /** vim: et:ts=4:sw=4:sts=4
