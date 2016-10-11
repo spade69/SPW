@@ -1,0 +1,1 @@
+define("dragMove",["jquery"],function(e){return function(e){var n=!1;e.mousedown(function(o){n=!0,_x=o.pageX-parseInt(e.css("left")),_y=o.pageY-parseInt(e.css("top"))}),$("body").mousemove(function(o){if(n){var t=o.pageX-_x,s=o.pageY-_y;t<-100&&(t=-100),s<-100&&(s=-100),t>700&&(t=700),e.css({top:s,left:t})}}),$("body").mouseup(function(){n=!1})}});

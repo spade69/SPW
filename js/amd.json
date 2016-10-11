@@ -1,0 +1,13 @@
+({
+    "shim": {
+        "bootstrap": {
+            //These script dependencies should be loaded before loading
+            //bootstrap.min.js
+            "deps": [ "jquery"],
+            //Once loaded, use the global 'bootstrap' as the
+            //module value.
+            "exports": "bootstrap"
+        },
+    }
+
+})

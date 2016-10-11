@@ -189,3 +189,4 @@ require(['popLogin'],function(popLogin){
 	afloat.autoCenter('pop');
 	afloat.resizable('pop');
 });
+

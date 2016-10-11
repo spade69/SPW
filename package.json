@@ -5,6 +5,7 @@
   "main": "gulpfile.js",
   "dependencies": {},
   "devDependencies": {
+    "amd-optimize": "^0.6.1",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-cache": "^0.4.5",
@@ -13,6 +14,9 @@
     "gulp-imagemin": "^3.0.3",
     "gulp-jshint": "^2.0.1",
     "gulp-less": "^3.1.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-requirejs-optimize": "^1.2.0",
+    "gulp-requirejs-simple": "^0.0.1",
     "gulp-ruby-sass": "^2.1.0",
     "gulp-uglify": "^2.0.0",
     "jshint": "^2.9.3"

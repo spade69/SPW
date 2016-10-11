@@ -9,7 +9,10 @@ var gulp=require('gulp'),
 	concat=require('gulp-concat'),
 	imagemin=require('gulp-imagemin'),
 	cache=require('gulp-cache'),
-	del=require('del');
+	del=require('del'),
+	requirejsOptimize=require('gulp-requirejs-optimize'),
+	amdOptimize=require('amd-optimize'),
+	livereload=require('gulp-livereload');
 
 
 //定义一个styles任务 Compile Sass,Autoprefix and minify
@@ -56,6 +59,15 @@ gulp.task('default',['clean'],function(){
 	gulp.start('styles','scripts','images');
 });
 
+gulp.task('rjs',function(){
+	return gulp.src('js/common/*.js')
+	.pipe(requirejsOptimize({
+		mainConfigFile:'js/app.js',
+		exclude:['jquery']
+	}))
+	.pipe(gulp.dest('dist/js/mod'));
+});
+
 gulp.task('testPreFx',function(){
 	gulp.src('style/css/*.css')
 	.pipe(autoprefixer({
@@ -66,8 +78,32 @@ gulp.task('testPreFx',function(){
 	.pipe(gulp.dest('style/test'));
 });
 
+gulp.task('rjsAMD',function(){
+	gulp.src('./js/**/*.js')
+		.pipe(amdOptimize("../app/main",{
+			//require config
+			"paths":{
+		        "app":"../app",
+		        "jquery":"../lib/jquery.min",
+		        "bootstrap":"../lib/bootstrap.min"
+    		},
+			configFile:"./js/amd.json",
+			baseUrl:"./js/common",
+
+		}))
+		.pipe(concat("index.js")) //合并
+		.pipe(gulp.dest('dist/assets/js')) //输出保存
+		.pipe(rename("index.min.js"))	//重命名
+		.pipe(uglify())//压缩
+		.pipe(gulp.dest("dist/assets/js"));//输出保存 
+});
+
 //gulp.task('default',['testPreFx','watch']);
 
 //运行方法 gulp taskname
 
-//or 直接 gulp default
+gulp.task('watch',function(){
+	//create livereload server
+	livereload.listen();	//
+	gulp.watch(['dist/**']).on('change',livereload.changed);
+});
