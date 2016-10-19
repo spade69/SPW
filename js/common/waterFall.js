@@ -98,13 +98,13 @@ define(['jquery'],function(jquery){
 		return (lastBoxH<scrollTop+height);
 	}
 	init=function(parent){
-		var urlBase="http://119.29.165.186/balight/file/photos/";
+		var urlBase="http://www.linzhida.cc/balight/file/photos/";
 		var oParent=document.getElementById(parent);
 		oParent.innerHTML="<div class='box'><div class='pic'><img src='"+urlBase+"0.jpg'></div></div>";
 	}
 	getPhoto=function(parent,count){
 		//return json dataInt={"data":[{"src":"0.jpg"},{"src","1.jpg"},....]};
-		var urlBase="http://119.29.165.186/balight/file/photos/";
+		var urlBase="http://www.linzhida.cc/balight/file/photos/";
 		var oParent=document.getElementById(parent);
 		//for (var i = 1; i <23; i++) {
 			var oBox=document.createElement('div');

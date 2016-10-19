@@ -29,6 +29,16 @@ gulp.task('styles',function(){
 		.pipe(gulp.dest('dist/assets/css'))
 		.pipe(notify({message:'Styles task complete'}));
 });
+
+
+//image
+gulp.task('images',function(){
+	return gulp.src('images/**/*.{png,jpg,gif,ico}')
+		.pipe(cache(imagemin({optimizationLevel:5,progressive:true,interlaced:true})))
+		.pipe(gulp.dest('dist/assets/images'))
+		
+});
+
 //scripts task
 gulp.task('scripts',function(){
 	return gulp.src('js/**/*.js')
@@ -41,42 +51,13 @@ gulp.task('scripts',function(){
 	.pipe(gulp.dest('dist/assets/js'))
 	.pipe(notify({message:'Scripts task complete'}));
 });
-
-//image
-gulp.task('images',function(){
-	return gulp.src('images/**/*.{png,jpg,gif,ico}')
-		.pipe(cache(imagemin({optimizationLevel:5,progressive:true,interlaced:true})))
-		.pipe(gulp.dest('dist/assets/img'))
-		.pipe(notify({message:'Images task complete'}));
-});
 //clean
 gulp.task('clean',function(){
 	return del(['dist/assets/css','dist/assets/js','dist/assets/img']);
 });
 	
-//default
-gulp.task('default',['clean'],function(){
-	gulp.start('styles','scripts','images');
-});
 
-gulp.task('rjs',function(){
-	return gulp.src('js/common/*.js')
-	.pipe(requirejsOptimize({
-		mainConfigFile:'js/app.js',
-		exclude:['jquery']
-	}))
-	.pipe(gulp.dest('dist/js/mod'));
-});
 
-gulp.task('testPreFx',function(){
-	gulp.src('style/css/*.css')
-	.pipe(autoprefixer({
-		browsers:['Firefox>=4','Opera>=10','Android>=4.0'],
-		cascade:true, //是否美化属性值 默认：true
-		remove:true //去掉不必要的前缀
-	}))
-	.pipe(gulp.dest('style/test'));
-});
 
 gulp.task('rjsAMD',function(){
 	gulp.src('./js/**/*.js')
@@ -95,15 +76,53 @@ gulp.task('rjsAMD',function(){
 		.pipe(gulp.dest('dist/assets/js')) //输出保存
 		.pipe(rename("index.min.js"))	//重命名
 		.pipe(uglify())//压缩
-		.pipe(gulp.dest("dist/assets/js"));//输出保存 
+		.pipe(gulp.dest("dist/assets/js"))//输出保存 
+		.pipe(notify({message:'Scripts task complete'}));
 });
-
-//gulp.task('default',['testPreFx','watch']);
+//default
+gulp.task('default',['clean'],function(){
+	gulp.start('rjsAMD','scripts','images');
+});
 
 //运行方法 gulp taskname
 
 gulp.task('watch',function(){
+
+	//watch .scss file
+	gulp.watch('./style/scss/*.scss',['styles']);
+
+	//watch js
+	gulp.watch('./js/**/*.js',['rjsAMD']);
+	//watch image
+	gulp.watch('images/**/*',['images']);
 	//create livereload server
+
 	livereload.listen();	//
 	gulp.watch(['dist/**']).on('change',livereload.changed);
 });
+
+
+/*
+
+gulp.task('rjs',function(){
+	return gulp.src('js/common/*.js')
+	.pipe(requirejsOptimize({
+		mainConfigFile:'js/app.js',
+		exclude:['jquery']
+	}))
+	.pipe(gulp.dest('dist/js/mod'));
+});
+
+
+
+gulp.task('testPreFx',function(){
+	gulp.src('style/css/*.css')
+	.pipe(autoprefixer({
+		browsers:['Firefox>=4','Opera>=10','Android>=4.0'],
+		cascade:true, //是否美化属性值 默认：true
+		remove:true //去掉不必要的前缀
+	}))
+	.pipe(gulp.dest('style/test'));
+});
+
+*/

@@ -50,14 +50,17 @@ define(['jquery','localStorageImg'],function(jquery,localStorageImg){
 			return false;
 		});
 		//var urlBase="http://119.29.165.186/balight/file/photos/weibo.png";
-		var storage=new localStorageImg.createStorage('images/weibo.png',$('#weibo')[0]);
-		var gitStorage=new localStorageImg.createStorage('images/github.png',$('#git')[0]);
-		var mailStorage=new localStorageImg.createStorage('images/gmail.png',$('#mail')[0]);
-		storage.set('weiboImg','png');
-		storage.get('weiboImg');
-		gitStorage.set('gitImg','png');
-		gitStorage.get('gitImg');
+		var storage=new localStorageImg.createStorage('./images/weibo.png',$('#weibo')[0]);
+		var gitStorage=new localStorageImg.createStorage('./images/github.png',$('#git')[0]);
+		var mailStorage=new localStorageImg.createStorage('./images/gmail.png',$('#mail')[0]);
+		//Don't just set and get 
+		storage.set('weiboImg','png');	
+		gitStorage.set('gitImg','png');	
 		mailStorage.set('mailImg','png');
-		mailStorage.get('mailImg');
+		window.setTimeout(function(){
+			storage.get('weiboImg');
+			gitStorage.get('gitImg');
+			mailStorage.get('mailImg');
+		},200);
 	}
 });

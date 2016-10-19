@@ -3157,15 +3157,17 @@ define('createSideBar', [
         ele.on('dragstart', function () {
             return false;
         });
-        var storage = new localStorageImg.createStorage('images/weibo.png', $('#weibo')[0]);
-        var gitStorage = new localStorageImg.createStorage('images/github.png', $('#git')[0]);
-        var mailStorage = new localStorageImg.createStorage('images/gmail.png', $('#mail')[0]);
+        var storage = new localStorageImg.createStorage('./images/weibo.png', $('#weibo')[0]);
+        var gitStorage = new localStorageImg.createStorage('./images/github.png', $('#git')[0]);
+        var mailStorage = new localStorageImg.createStorage('./images/gmail.png', $('#mail')[0]);
         storage.set('weiboImg', 'png');
-        storage.get('weiboImg');
         gitStorage.set('gitImg', 'png');
-        gitStorage.get('gitImg');
         mailStorage.set('mailImg', 'png');
-        mailStorage.get('mailImg');
+        window.setTimeout(function () {
+            storage.get('weiboImg');
+            gitStorage.get('gitImg');
+            mailStorage.get('mailImg');
+        }, 200);
     };
 });
 define('dragMove', ['jquery'], function (jquery) {
@@ -4173,12 +4175,12 @@ define('waterFall', ['jquery'], function (jquery) {
         return lastBoxH < scrollTop + height;
     };
     init = function (parent) {
-        var urlBase = 'http://119.29.165.186/balight/file/photos/';
+        var urlBase = 'http://www.linzhida.cc/balight/file/photos/';
         var oParent = document.getElementById(parent);
         oParent.innerHTML = '<div class=\'box\'><div class=\'pic\'><img src=\'' + urlBase + '0.jpg\'></div></div>';
     };
     getPhoto = function (parent, count) {
-        var urlBase = 'http://119.29.165.186/balight/file/photos/';
+        var urlBase = 'http://www.linzhida.cc/balight/file/photos/';
         var oParent = document.getElementById(parent);
         var oBox = document.createElement('div');
         oBox.className = 'box';
