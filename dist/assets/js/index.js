@@ -3203,6 +3203,18 @@ define('getGeoLocation', ['jquery'], function (jquery) {
     function CreateLocation() {
         this.latitude = undefined;
         this.longitude = undefined;
+        this.setLatitude = function (latitude) {
+            this.latitude = latitude;
+        };
+        this.getLatitude = function () {
+            return this.latitude;
+        };
+        this.setLongitude = function (longitude) {
+            this.longitude = longitude;
+        };
+        this.getLongitude = function () {
+            return this.longitude;
+        };
     }
     CreateLocation.prototype = {
         getLocation: function () {
@@ -3219,9 +3231,9 @@ define('getGeoLocation', ['jquery'], function (jquery) {
         },
         locationSuccess: function (position) {
             var coords = position.coords;
-            this.latitude = coords.latitude + 0.00374531687912;
-            this.longitude = coords.longitude + 0.008774687519;
-            console.log(position);
+            navigator.geolocation.latitude = coords.latitude + 0.00374531687912;
+            navigator.geolocation.longitude = coords.longitude + 0.008774687519;
+            console.log('Success ', this.latitude, this.longitude);
         },
         showError: function (error) {
             switch (error.code) {
@@ -3259,8 +3271,8 @@ define('getGeoLocation', ['jquery'], function (jquery) {
             var appid = '&APPID=4c16d64121b3d1c838c58a8c8b100a15';
             var city = 'q=Shenzhen';
             var units = '&units=metric';
-            var lat = 'lat=' + this.latitude;
-            var lon = '&lon=' + this.longitude;
+            var lat = 'lat=' + navigator.geolocation.latitude;
+            var lon = '&lon=' + navigator.geolocation.longitude;
             var cb = '&jsoncallback=JSON_CALLBACK';
             var html = '<h4>MyWeather</h4>';
             $.getJSON(api + lat + lon + units + appid + cb, function (data) {
@@ -4528,7 +4540,27 @@ define('myPosts', ['jquery'], function (jquery) {
         };
     }
     createPosts.prototype = {
-        postContent: function () {
+        postContent: function (url) {
+            var posts = $(this.posts);
+            var self = this;
+            posts.on('click', function (event) {
+                var postObj = {
+                    title: 'fuckok',
+                    userUuid: '123124',
+                    texts: self.oContent.value
+                };
+                var posting = $.post(url, postObj);
+                posting.done(function (data) {
+                    switch (data.result) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    default:
+                        break;
+                    }
+                });
+            });
         },
         displayContent: function (self) {
             var text = $(self.txtInput);
@@ -4736,6 +4768,8 @@ define('popLogin', ['useful'], function (useful) {
     };
     return { CreateFloat: CreateFloat };
 });
+var urlBase = 'http://spw.linzhida.cc';
+var urlPost = urlBase + '/article';
 function SideBar(ele) {
     $(window).scroll(function () {
         var items = $('#content').find('.item');
@@ -4788,6 +4822,7 @@ function tab_switch(ele, myLogin, myPosts, mySignUp) {
                     myLog.myVerify();
                     myLog.myPost('loginForm', 'pop');
                     myPo.init();
+                    myPo.postContent(urlPost);
                     break;
                 case 1:
                     window.location.href = 'blog/tech.html';

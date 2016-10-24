@@ -18,8 +18,21 @@ define(['jquery'],function(jquery){
 		}
 	}
 	createPosts.prototype={
-		postContent:function(){
-			//this.oContent.innerHTML+=
+		postContent:function(url){
+			var posts=$(this.posts);
+			var self=this;
+			posts.on('click',function(event){
+				var postObj={title:"fuckok",userUuid:"123124",texts:self.oContent.value}
+				var posting=$.post(url,postObj);
+				posting.done(function(data){
+					switch(data.result){
+						case 0:break;
+						case 1:break;
+						default:break;
+					}
+				});
+			})
+			
 		},
 		displayContent:function(self){
 			var text=$(self.txtInput);//DOM 转jquery对象

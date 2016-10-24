@@ -12,6 +12,8 @@ Date 2016/7/15
 			return v;
 		});
 */
+var urlBase="http://spw.linzhida.cc";
+var urlPost=urlBase+"/article";
 
 function SideBar(ele){
 	//ele <==> $(".sidebar")
@@ -83,7 +85,9 @@ function tab_switch(ele,myLogin,myPosts,mySignUp){
 						// 	event.preventDefault();
 						// 	myLog.myPost();
 						// });
+
 						myPo.init();
+						myPo.postContent(urlPost);
 						break;
 					case 1:
 						window.location.href="blog/tech.html";

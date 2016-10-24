@@ -11,9 +11,22 @@ define(['jquery'],function(jquery){
 	function CreateLocation(){
 		this.latitude=undefined;
 		this.longitude=undefined;
+		this.setLatitude=function(latitude){
+			this.latitude=latitude;
+		}
+		this.getLatitude=function(){
+			return this.latitude;
+		}
+		this.setLongitude=function(longitude){
+			this.longitude=longitude;
+		}
+		this.getLongitude=function(){
+			return this.longitude;
+		}
 	}
 
 	CreateLocation.prototype={
+
 		getLocation:function(){
 			if(navigator.geolocation){
 
@@ -34,9 +47,9 @@ define(['jquery'],function(jquery){
 		},
 		locationSuccess:function(position){
 			var coords=position.coords;
-			this.latitude=coords.latitude+0.00374531687912;//偏移量校正值 
-			this.longitude=coords.longitude+0.008774687519;
-			console.log(position);
+			navigator.geolocation.latitude=coords.latitude+0.00374531687912;//偏移量校正值 
+			navigator.geolocation.longitude=coords.longitude+0.008774687519;
+			console.log("Success ",this.latitude,this.longitude);
 		},
 		showError:function(error){
 			switch(error.code)
@@ -83,8 +96,8 @@ define(['jquery'],function(jquery){
 			//返回数据的单位。不设置默认不是摄氏度
 			var units="&units=metric";
 			//&jsoncallback=?,设置为?是jq随机产生一个名字，但是此处必须指定一个名字，都可以除了?
-			var lat="lat="+this.latitude;
-			var lon="&lon="+this.longitude;
+			var lat="lat="+navigator.geolocation.latitude;//22.53675831687912;
+			var lon="&lon="+navigator.geolocation.longitude;//113.93925068751899;
 			
 			var cb="&jsoncallback=JSON_CALLBACK";
 			var html='<h4>MyWeather</h4>';
