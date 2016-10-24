@@ -80,7 +80,7 @@ function tab_switch(ele,myLogin,myPosts,mySignUp){
 						var myPo=new myPosts.createPosts('posts','txtInput','oContent');
 						myLog.myValidateFresh();
 						myLog.myVerify();
-						myLog.myPost('loginForm','pop');
+						myLog.myPost('loginForm','loginInfo');
 						// $("#btnSignIn").on('submit',function(event){
 						// 	event.preventDefault();
 						// 	myLog.myPost();

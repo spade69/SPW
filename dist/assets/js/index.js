@@ -4498,25 +4498,28 @@ define('myLogin', [
             this.passwd.setAttribute('name', 'password');
             var validateCode = $('.' + loginForm).find('input[name=\'validateCode\']').val();
             console.log(validateCode);
+            var loginInfo = $('#' + loginInfo);
+            $('.' + loginForm).on('submit', function (event) {
+                event.preventDefault();
+            });
             $(this.btn).on('click', function () {
-                $('.' + loginForm).on('submit', function (event) {
-                    event.preventDefault();
-                    var posting = $.post(url, $('.' + loginForm).serialize());
-                    posting.done(function (data) {
-                        switch (data.result) {
-                        case 0:
-                            window.location.href = 'Main.html';
-                            break;
-                        case 1:
-                            alert('Failed,problem with username or password');
-                            break;
-                        case 2:
-                            alert('Failed of validateCode');
-                            break;
-                        default:
-                            break;
-                        }
-                    });
+                var posting = $.post(url, $('.' + loginForm).serialize());
+                posting.done(function (data) {
+                    switch (data.result) {
+                    case 0:
+                        window.location.href = 'Main.html';
+                        break;
+                    case 1:
+                        loginInfo.empty();
+                        loginInfo.append('<span class="text-center">Failed,problem with username or password</span>');
+                        loginInfo.toggleClass('loginFail');
+                        break;
+                    case 2:
+                        alert('Failed of validateCode');
+                        break;
+                    default:
+                        break;
+                    }
                 });
             });
         },
@@ -4820,7 +4823,7 @@ function tab_switch(ele, myLogin, myPosts, mySignUp) {
                     var myPo = new myPosts.createPosts('posts', 'txtInput', 'oContent');
                     myLog.myValidateFresh();
                     myLog.myVerify();
-                    myLog.myPost('loginForm', 'pop');
+                    myLog.myPost('loginForm', 'loginInfo');
                     myPo.init();
                     myPo.postContent(urlPost);
                     break;

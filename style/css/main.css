@@ -292,6 +292,7 @@ body{
       height: auto; 
       /*it's really useful set to auto */
     }
+       /* Login */
     .loginForm{
       padding: 10px 0 0 20px;
       margin-right: 20px;
@@ -311,7 +312,26 @@ body{
       width: 350px;
       margin-top: 10px;
     }
-  
+    
+    .loginFail0{
+      opacity: 1;
+    }
+    .loginFail{
+      position: absolute;
+      background: red;
+      z-index: 99999;
+      width: 100%;
+      height: 80px;
+      left:80%;
+      top:20%;
+      opacity: 0;
+      -webkit-transition:opacity 0.5s 1s ease-out;
+      -moz-transition:opacity 0.5s 1s ease-out;
+      -ms-transition:opacity 0.5s 1s ease-out;
+      -o-transition:opacity 0.5s 1s ease-out;
+      transition:opacity 0.5s 1s ease-out;
+    }
+
     #signup{
       position: fixed;
       color:white;
@@ -329,3 +349,5 @@ body{
       box-shadow: inset 0 0 2px 0 rgba(57, 140, 255, 0.8);
       text-align: left;
     }
+
+ 

@@ -33,17 +33,22 @@ define(['verify','jquery'],function(verify,jquery){
 			//find操作 获取的是jq对象
 			var validateCode=$("."+loginForm).find("input[name='validateCode']").val();
 			console.log(validateCode);
-			$(this.btn).on('click',function(){
-				$("."+loginForm).on('submit',function(event){
+			var loginInfo=$('#'+loginInfo);
+			$("."+loginForm).on('submit',function(event){
 					event.preventDefault();
+			});
+			$(this.btn).on('click',function(){
 					var posting=$.post(url,$("."+loginForm).serialize());
 					posting.done(function(data){
-						switch(data.result){
+						switch(data.result){//IE>=10 
 							case 0:
 								window.location.href="Main.html";
 								break;
 							case 1:
-								alert("Failed,problem with username or password");
+								//alert("Failed,problem with username or password");
+								loginInfo.empty();
+								loginInfo.append('<span class="text-center">Failed,problem with username or password</span>');
+								loginInfo.toggleClass('loginFail');//addClass not .loginFail!!
 								break;
 							case 2:
 								alert("Failed of validateCode");
@@ -51,7 +56,6 @@ define(['verify','jquery'],function(verify,jquery){
 							default:break;
 						}
 					});
-				});
 			});
 			
 		},//刷新验证码

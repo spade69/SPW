@@ -72,6 +72,8 @@ gulp.task('rjsAMD',function(){
 			baseUrl:"./js/common",
 
 		}))
+//		.pipe(jshint('.jshintrc'))
+//		.pipe(jshint.reporter('default'))
 		.pipe(concat("index.js")) //合并
 		.pipe(gulp.dest('dist/assets/js')) //输出保存
 		.pipe(rename("index.min.js"))	//重命名
