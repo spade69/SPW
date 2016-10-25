@@ -14,6 +14,7 @@ Date 2016/7/15
 */
 var urlBase="http://spw.linzhida.cc";
 var urlPost=urlBase+"/article";
+var urlGet=urlBase+"/article/";
 
 function SideBar(ele){
 	//ele <==> $(".sidebar")
@@ -81,13 +82,10 @@ function tab_switch(ele,myLogin,myPosts,mySignUp){
 						myLog.myValidateFresh();
 						myLog.myVerify();
 						myLog.myPost('loginForm','loginInfo');
-						// $("#btnSignIn").on('submit',function(event){
-						// 	event.preventDefault();
-						// 	myLog.myPost();
-						// });
 
-						myPo.init();
-						myPo.postContent(urlPost);
+						//myPo.init();
+						myPo.postContent(urlPost,urlGet);
+						
 						break;
 					case 1:
 						window.location.href="blog/tech.html";

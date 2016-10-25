@@ -47,8 +47,12 @@ define(['verify','jquery'],function(verify,jquery){
 							case 1:
 								//alert("Failed,problem with username or password");
 								loginInfo.empty();
-								loginInfo.append('<span class="text-center">Failed,problem with username or password</span>');
-								loginInfo.toggleClass('loginFail');//addClass not .loginFail!!
+								loginInfo.append('<br><span class="text-center" style="margin-left:20px;">Failed,problem with username or password</span>');
+								//toggleClass
+								loginInfo.addClass('loginFail');//addClass not .loginFail!!
+								setTimeout(function(){
+									loginInfo.removeClass('loginFail');
+								},5000);
 								break;
 							case 2:
 								alert("Failed of validateCode");
