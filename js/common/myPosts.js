@@ -85,7 +85,7 @@ define(['jquery','useful'],function(jquery,useful){
 		},
 		delContent:function(urlBase){
 
-		}
+		},
 		test:function(){
 			var posts=$(this.posts);
 			var self=this;

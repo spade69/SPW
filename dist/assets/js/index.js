@@ -3170,15 +3170,27 @@ define('createSideBar', [
         }, 200);
     };
 });
-define('dragMove', ['jquery'], function (jquery) {
+define('featureDectect', [], function () {
+    var isSupported = function (eventType, version) {
+        return document.implementation.hasFeature(eventType, version);
+    };
+    return { isSupported: isSupported };
+});
+define('dragMove', [
+    'jquery',
+    'featureDectect'
+], function (jquery, featureDectect) {
     return function (ele) {
+        console.log(featureDectect.isSupported('MouseEvent', '3.0'));
         var move = false;
         ele.mousedown(function (event) {
+            var event = event || window.event;
             move = true;
             _x = event.pageX - parseInt(ele.css('left'));
             _y = event.pageY - parseInt(ele.css('top'));
         });
         $('body').mousemove(function (event) {
+            var event = event || window.event;
             if (move) {
                 var x = event.pageX - _x;
                 var y = event.pageY - _y;
@@ -4550,23 +4562,27 @@ define('myPosts', [
     'useful'
 ], function (jquery, useful) {
     function createPosts(posts, txtInput, oContent) {
-        var userId;
-        var articleId;
+        var userId = [];
+        var articleId = [];
         this.timer = null;
         this.posts = document.getElementById(posts);
         this.txtInput = document.getElementById(txtInput);
         this.oContent = document.getElementById(oContent);
-        this.getUserId = function () {
-            return this.userId;
+        this.getUserId = function (index) {
+            if (index <= this.userId.length - 1)
+                return this.userId[index];
         };
         this.setUserId = function (userId) {
-            this.userId = userId;
+            var len = this.userId.length;
+            this.userId[len] = userId;
         };
-        this.getArticleId = function () {
-            return this.articleId;
+        this.getArticleId = function (index) {
+            if (index <= this.articleId.length - 1)
+                return this.articleId[index];
         };
         this.setArticleId = function (articleId) {
-            this.articleId = articleId;
+            var len = this.articleId.length;
+            this.articleId[len] = articleId;
         };
     }
     createPosts.prototype = {
@@ -4600,6 +4616,8 @@ define('myPosts', [
                 });
             });
         },
+        getAllId: function (url) {
+        },
         displayContent: function (self, txt) {
             var text = $(self.txtInput);
             self.oContent.innerHTML += '<div class=\'release\'><p>' + txt + '</p></div>';
@@ -4610,7 +4628,8 @@ define('myPosts', [
             return str.toString().replace(/^(\d)$/, '0$1');
         },
         getContent: function (url) {
-            var id = this.getArticleId();
+            var index = this.articleId.length - 1;
+            var id = this.getArticleId(index);
             var self = this;
             url = url + id;
             $.get(url, function (data) {
@@ -4618,7 +4637,9 @@ define('myPosts', [
                 console.log(data.article);
             });
         },
-        init: function () {
+        delContent: function (urlBase) {
+        },
+        test: function () {
             var posts = $(this.posts);
             var self = this;
         }
