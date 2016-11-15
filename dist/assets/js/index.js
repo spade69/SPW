@@ -3105,6 +3105,11 @@ define('localStorageImg', [], function () {
             }, false);
         },
         get: function (key) {
+            var flag = true;
+            while (localStorage.getItem(key) === null && flag);
+            window.setTimeout(function () {
+                flag = false;
+            }, 3000);
             var srcStr = localStorage.getItem(key);
             var imgObj = document.createElement('img');
             imgObj.src = srcStr;
@@ -3181,7 +3186,10 @@ define('dragMove', [
     'featureDectect'
 ], function (jquery, featureDectect) {
     return function (ele) {
-        console.log(featureDectect.isSupported('MouseEvent', '3.0'));
+        if (!featureDectect.isSupported('MouseEvent', '3.0')) {
+            alert('您的浏览器不支持拖拽\uFF01请使用Chrome');
+            return;
+        }
         var move = false;
         ele.mousedown(function (event) {
             var event = event || window.event;
@@ -3189,7 +3197,7 @@ define('dragMove', [
             _x = event.pageX - parseInt(ele.css('left'));
             _y = event.pageY - parseInt(ele.css('top'));
         });
-        $('body').mousemove(function (event) {
+        ele.mousemove(function (event) {
             var event = event || window.event;
             if (move) {
                 var x = event.pageX - _x;
@@ -3200,13 +3208,11 @@ define('dragMove', [
                     y = -100;
                 if (x > 700)
                     x = 700;
-                ele.css({
-                    'top': y,
-                    'left': x
-                });
+                ele[0].style.top = y + 'px';
+                ele[0].style.left = x + 'px';
             }
         });
-        $('body').mouseup(function () {
+        ele.mouseup(function () {
             move = false;
         });
     };

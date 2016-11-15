@@ -36,6 +36,11 @@ define(function(){
 		},
 
 		get:function(key){//从本地缓存取图片并渲染
+			var flag=true;
+			while((localStorage.getItem(key)===null)&&flag);
+			window.setTimeout(function(){
+				flag=false;
+			},3000);
 			var srcStr=localStorage.getItem(key);
 			var imgObj=document.createElement('img');
 			imgObj.src=srcStr;

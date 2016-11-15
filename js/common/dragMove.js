@@ -3,7 +3,10 @@
 
 define(['jquery','featureDectect'],function(jquery,featureDectect){
 	return function(ele){
-	console.log(featureDectect.isSupported('MouseEvent','3.0'));
+	if(!featureDectect.isSupported('MouseEvent','3.0')){
+		alert("您的浏览器不支持拖拽！请使用Chrome");
+		return;
+	}
 	//dragMove(ele){
 	var move=false;//标记移动
 	ele.mousedown(function(event){
@@ -17,10 +20,11 @@ define(['jquery','featureDectect'],function(jquery,featureDectect){
 		// _x=event.pageX-ele.offset().left;
 		// _y=event.pageY-ele.offset().top;
 	});
-	//
-	$("body").mousemove(function(event){
+	//$('body')
+	ele.mousemove(function(event){
 		var event=event||window.event;
 		if(move){
+			//console.log(event.pageX,event.pageY);
 			var x=event.pageX-_x;//控件左上角到屏幕左上角的相对位置
 			var y=event.pageY-_y;
 			if(x<-100)
@@ -30,10 +34,12 @@ define(['jquery','featureDectect'],function(jquery,featureDectect){
 			if(x>700)
 				x=700;
 			//bottom，最下方的值不好设置，因为文档会随着内容拉长，不能设为定值
-			ele.css({"top":y,"left":x});
+			//ele.css({"top":y,"left":x});
+			ele[0].style.top=y+"px";
+			ele[0].style.left=x+"px";
 		}
 	});
-	$("body").mouseup(function(){
+	ele.mouseup(function(){
 		//var event=event||window.event;
 		move=false;
 	});
