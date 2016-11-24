@@ -70,33 +70,29 @@
 
 <div id="tabContent">
   <div id="index">
-    <div class="content" id="content">
-      <div id="lemu" class="item">
-        <ul>
-        <li><img src="images/lemu1.jpg" class="img-responsive center-block"></li>
-        </ul>
-      </div>
-      <div id="news" class="item">
-         <ul>
-        <li><img src="images/lemu2.jpg" class="img-responsive center-block"></li>
-         </ul>
-      </div>
-      <div id="fav" class="item">
-        <img src="images/lemu3.jpg" class="img-responsive center-block">
-      </div>
-      <div id="msg" class="item">
-        <img src="images/lemu4.jpg" class="img-responsive center-block">
-      </div>
-    </div>
-
-    <div class="sidebar" id="sidebar">     
-      <ul>
-        <li><a href="#lemu" class="list-group-item">Lemu</a></li>
-        <li><a href="#news" class="list-group-item">News</a></li>
-        <li><a href="#fav" class="list-group-item">Favorite</a></li>
-        <li><a href="#msg" class="list-group-item">Message</a></li>
-      </ul>
-    </div>
+    <div id="myGeneric" class="carousel slide" data-ride="carousel">
+        <!-- indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myGeneric" data-slide-to="0" class="active"></li>
+            <li data-target="#myGeneric" data-slide-to="1"></li>
+            <li data-target="#myGeneric" data-slide-to="2"></li>
+        </ol>
+    <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <img src="images/lemu1.jpg" alt="First slide" class="img-responsive center-block">
+                </div>
+                <div class="item">
+                    <img src="images/lemu2.jpg" alt="Second slide" class="img-responsive center-block">
+                </div>
+                <div class="item">
+                    <img src="images/lemu3.jpg" alt="Third slide" class="img-responsive center-block">
+                </div>
+        </div>
+        <!-- 轮播导航 -->
+        <a href="#myGeneric" class="carousel-control left" role="button" data-slide="prev">&lsaquo;</a>
+        <a href="#myGeneric" class="carousel-control right" role="button" data-slide="next">&rsaquo;</a>
+    </div>   
   </div>
 
   <div id="blog" class="hidden"></div>
