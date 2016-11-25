@@ -196,7 +196,7 @@ body{
       background: red;
       margin:0 auto;
     }
-    .left{
+    .leftSide{
       position:absolute;
       /*
       float:left; 
