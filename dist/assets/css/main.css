@@ -15,9 +15,10 @@
 .wrap{width:1024px;margin: 0 auto;padding: 0;}
 body{
   background-image:url(../../images/background.jpg);
-  /*background-repeat: no-repeat;*/
+  background-repeat: no-repeat;
   background-clip:content-box;
-  background-size: contain;
+ 
+  background-color:#008866;
   }
     .main{
       width:100%;
@@ -193,7 +194,7 @@ body{
     .foot{
       width: 1024px;
       height: 100px;
-      background: red;
+      background: transparent;
       margin:0 auto;
     }
     .leftSide{
@@ -269,19 +270,20 @@ body{
       background-color:#0088bb; 
     }
 
-    #fill{
+    .fill{
       width: 200px;
-      height: 3000px;
+      height: auto;
       float: right;
       background-color: transparent;
     }
-
+    
 
     #gallery{position: relative;}
 
     .box{
       padding: 15px 0 0 15px;
       float: left;
+
     }
     /*白色外边框+阴影+内边距*/
     .pic{
@@ -292,9 +294,9 @@ body{
     }
 
     .pic img{
-      width:165px;
+      width:200px; 
       height: auto; 
-      /*it's really useful set to auto */
+      /*it's really useful set to auto  165*/
     }
        /* Login */
     .loginForm{

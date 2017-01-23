@@ -4143,7 +4143,6 @@ define('waterFall', ['jquery'], function (jquery) {
         var oBoxs = getByClass(oParent, box);
         var oBoxW = oBoxs[0].offsetWidth;
         var dWidth = document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth;
-        console.log(dWidth);
         var cols = Math.floor(dWidth / oBoxW);
         oParent.style.cssText = 'width:' + oBoxW * cols + 'px;margin:0 auto';
         var hArr = [];
@@ -4188,6 +4187,10 @@ define('waterFall', ['jquery'], function (jquery) {
         });
     };
     getByClass = function (parent, clsName) {
+        if (parent.getElementsByClassName(clsName)) {
+            var boxArr = parent.getElementsByClassName(clsName);
+            return boxArr;
+        }
         var boxArr = [];
         var oElements = parent.getElementsByTagName('*');
         for (var i = 0; i < oElements.length; i++) {
@@ -4204,7 +4207,7 @@ define('waterFall', ['jquery'], function (jquery) {
         var height = document.documentElement.clientHeight || document.body.clientHeight;
         return lastBoxH < scrollTop + height;
     };
-    init = function (parent) {
+    init = function (parent, urlBase) {
         var urlBase = 'http://www.linzhida.cc/balight/file/photos/';
         var oParent = document.getElementById(parent);
         oParent.innerHTML = '<div class=\'box\'><div class=\'pic\'><img src=\'' + urlBase + '0.jpg\'></div></div>';
@@ -4861,6 +4864,7 @@ function SideBar(ele) {
 }
 function tab_switch(ele, myLogin, myPosts, mySignUp) {
     var myEle = $('#' + ele);
+    var fill = $('.fill');
     myEle.on('click', 'li a', function (event) {
         $('#tabContent').children().addClass('hidden');
         var tmp = myEle.find('li a');
@@ -4869,8 +4873,12 @@ function tab_switch(ele, myLogin, myPosts, mySignUp) {
                 $('#tabContent').children().eq(i).removeClass('hidden');
                 switch (i) {
                 case 4:
-                    var count = 1;
+                    var count = 1, pre = 23;
                     init('gallery');
+                    for (var i = 0; i < pre; i++) {
+                        getPhoto('gallery', count);
+                        count++;
+                    }
                     window.onscroll = function () {
                         if (checkScrollSlide('gallery', 'box') && count < 97) {
                             getPhoto('gallery', count);
@@ -4885,6 +4893,7 @@ function tab_switch(ele, myLogin, myPosts, mySignUp) {
                     mySign.signUpPost();
                     break;
                 case 2:
+                    fill.css('height', '1024px');
                     var myLog = new myLogin.createLogin('btnSignIn', 'userid', 'codeid', 'loginInfo', 'loginPwd');
                     var myPo = new myPosts.createPosts('posts', 'txtInput', 'oContent');
                     myLog.myValidateFresh();

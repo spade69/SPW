@@ -46,6 +46,7 @@ function SideBar(ele){
 	//2) 事件委托，绑定到父元素
 function tab_switch(ele,myLogin,myPosts,mySignUp){
 	var myEle=$('#'+ele);	
+	var fill=$('.fill');
 	myEle.on('click','li a',function(event){
 		$("#tabContent").children().addClass("hidden");
 		var tmp=myEle.find("li a");
@@ -55,19 +56,23 @@ function tab_switch(ele,myLogin,myPosts,mySignUp){
 				switch(i)
 				{//Graph
 					case 4:					
-					var count=1;	
-					init('gallery');
-					window.onscroll=function(){
-						if(checkScrollSlide('gallery','box')&&count<97){
-							//var oParent=document.getElementById(parent);
-							//let data reder behind将数据块加载到页面尾部
+						var count=1,pre=23;	
+						init('gallery');
+						for(var i=0;i<pre;i++){
 							getPhoto('gallery',count);
-							waterfall('gallery','box');
 							count++;
 						}
-			
-					}
-					break;
+						window.onscroll=function(){
+							if(checkScrollSlide('gallery','box')&&count<97){
+								//var oParent=document.getElementById(parent);
+								//let data reder behind将数据块加载到页面尾部
+								getPhoto('gallery',count);
+								waterfall('gallery','box');
+								count++;
+							}
+				
+						}
+						break;
 			
 					case 3:
 						var mySign=new mySignUp.createSignUp('username','passwd','xpasswd','mail',
@@ -77,6 +82,7 @@ function tab_switch(ele,myLogin,myPosts,mySignUp){
 						break;
 					
 					case 2://Leave Note
+						fill.css('height','1024px');
 						var myLog=new myLogin.createLogin('btnSignIn','userid','codeid','loginInfo','loginPwd');
 						var myPo=new myPosts.createPosts('posts','txtInput','oContent');
 						myLog.myValidateFresh();
@@ -90,7 +96,8 @@ function tab_switch(ele,myLogin,myPosts,mySignUp){
 					case 1:
 						window.location.href="blog/tech.html";
 						break;
-					default:break;
+					default:
+					break;
 				}
 			}
 		}
