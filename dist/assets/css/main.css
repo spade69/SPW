@@ -22,6 +22,7 @@ body{
   }
     .main{
       width:100%;
+      height:auto;
       overflow: hidden;
       background-color: transparent;
       position: relative;
@@ -278,7 +279,7 @@ body{
     }
     
 
-    #gallery{position: relative;}
+    #gallery{position: relative;height:100%;}
 
     .box{
       padding: 15px 0 0 15px;
@@ -294,7 +295,7 @@ body{
     }
 
     .pic img{
-      width:200px; 
+      width:185px; 
       height: auto; 
       /*it's really useful set to auto  165*/
     }

@@ -56,10 +56,13 @@ function tab_switch(ele,myLogin,myPosts,mySignUp){
 				switch(i)
 				{//Graph
 					case 4:					
-						var count=1,pre=23;	
+						var count=1,pre=calInitial(185);	
 						init('gallery');
-						for(var i=0;i<pre;i++){
+						for( var i=0;i<pre;i++){
 							getPhoto('gallery',count);
+							waterfall('gallery','box');
+							//65 ? experience?
+							fill.css('height',65*(count+1)+'px');
 							count++;
 						}
 						window.onscroll=function(){
@@ -68,6 +71,7 @@ function tab_switch(ele,myLogin,myPosts,mySignUp){
 								//let data reder behind将数据块加载到页面尾部
 								getPhoto('gallery',count);
 								waterfall('gallery','box');
+								fill.css('height',60*(count+1)+'px');
 								count++;
 							}
 				

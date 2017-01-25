@@ -123,6 +123,15 @@ define(['jquery'],function(jquery){
             oPic.appendChild(oImg);
         //}
     
-
     }
+    //calculate the row and column 
+    calInitial=function(picWidth){
+        var picHeight=picWidth;//
+        var viewHeight=window.innerHeight||document.documentElement.clientHeight;
+        var viewWidth=window.innerWidth||document.documentElement.clientWidth;
+        var columns=Math.floor(viewWidth/picWidth-1);  //consider the padding and margin
+        var rows=Math.floor(viewHeight/picHeight);
+        return rows*columns;
+    }
+
 });

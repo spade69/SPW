@@ -4225,6 +4225,14 @@ define('waterFall', ['jquery'], function (jquery) {
         oImg.src = urlBase + count + '.jpg';
         oPic.appendChild(oImg);
     };
+    calInitial = function (picWidth) {
+        var picHeight = picWidth;
+        var viewHeight = window.innerHeight || document.documentElement.clientHeight;
+        var viewWidth = window.innerWidth || document.documentElement.clientWidth;
+        var columns = Math.floor(viewWidth / picWidth - 1);
+        var rows = Math.floor(viewHeight / picHeight);
+        return rows * columns;
+    };
 });
 define('useful', [], function () {
     String.prototype.glen = function () {
@@ -4873,16 +4881,19 @@ function tab_switch(ele, myLogin, myPosts, mySignUp) {
                 $('#tabContent').children().eq(i).removeClass('hidden');
                 switch (i) {
                 case 4:
-                    var count = 1, pre = 23;
+                    var count = 1, pre = calInitial(185);
                     init('gallery');
                     for (var i = 0; i < pre; i++) {
                         getPhoto('gallery', count);
+                        waterfall('gallery', 'box');
+                        fill.css('height', 65 * (count + 1) + 'px');
                         count++;
                     }
                     window.onscroll = function () {
                         if (checkScrollSlide('gallery', 'box') && count < 97) {
                             getPhoto('gallery', count);
                             waterfall('gallery', 'box');
+                            fill.css('height', 60 * (count + 1) + 'px');
                             count++;
                         }
                     };
