@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta Http-equiv="Content-Type" Content="text/html; charset=utf-8">
     <title>Jason_Page</title>
-    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
      <script type="text/javascript" src="js/require.js" data-main="js/index.min" defer async="true"></script>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/poptip.css">
@@ -71,7 +71,8 @@
 <div id="tabContent">
   <div id="index">
     <div id="myGeneric" class="carousel slide" data-ride="carousel">
-        <!-- indicators -->
+        <!-- indicators 此处的data-*属性都是给Bootstrap用的
+         -->
         <ol class="carousel-indicators">
             <li data-target="#myGeneric" data-slide-to="0" class="active"></li>
             <li data-target="#myGeneric" data-slide-to="1"></li>
@@ -138,7 +139,7 @@
               <div class="form-group">
                 <div class="input-group validate">
                   <input type="text" name="validateCode" placeholder="Validate" class="form-control"/>
-                  <a href="javascript:void(0);" class="validate"><img src="http://spw.linzhida.cc/getValidateCode" id="validateImg" height="25"/></a>
+                  <a href="javascript:void(0);" class="validate"><img src="//spw.linzhida.cc/getValidateCode" id="validateImg" height="25"/></a>
                 </div>
                 <div class="form-group">
                   <input id="btnSignIn" type="submit" class="btn btn-success btnSignIn" value="Sign in"/>

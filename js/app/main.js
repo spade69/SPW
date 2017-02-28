@@ -12,7 +12,7 @@ Date 2016/7/15
             return v;
         });
 */
-var urlBase="http://spw.linzhida.cc";
+var urlBase="//spw.linzhida.cc";//"http://spw.linzhida.cc";
 var urlPost=urlBase+"/article";
 var urlGet=urlBase+"/article/";
 

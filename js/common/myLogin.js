@@ -26,7 +26,7 @@ define(['verify','jquery'],function(verify,jquery){
 		},
 		myPost:function(loginForm,loginInfo){
 			//var api="http://204d.cn/youtu/login";
-			var url="http://spw.linzhida.cc/user/login";
+			var url="//spw.linzhida.cc/user/login";
 			//$(".loginForm").attr("action");
 			this.name.setAttribute("name","username");//val() 用于获取输入框的内容
 			this.passwd.setAttribute("name","password");
@@ -65,7 +65,7 @@ define(['verify','jquery'],function(verify,jquery){
 		},//刷新验证码
 		myValidateFresh:function(){
 			//http://spw.204d.cn/getValidateCode
-			var url="http://spw.linzhida.cc/getValidateCode";
+			var url="https://spw.linzhida.cc/getValidateCode";
 			var img=$("#validateImg").on('click',function(){
 				//每设置一次url都会发生一次get请求
 				this.setAttribute("src",url);

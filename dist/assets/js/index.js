@@ -3081,15 +3081,100 @@
         return x;
     }), 'object' == typeof e && 'object' == typeof e.document && (e.jQuery = e.$ = x);
 }(window));
-define('localStorageImg', [], function () {
+define('useful', [], function () {
+    String.prototype.glen = function () {
+        var len = 0;
+        for (var i = 0; i < this.length; i++) {
+            if (this.charCodeAt(i) > 127 || this.charCodeAt(i) == 94) {
+                len += 2;
+            } else {
+                len++;
+            }
+        }
+        return len;
+    };
+    addEvent = function (element, type, handler) {
+        if (element.addEventListener) {
+            element.addEventListener(type, handler, false);
+        } else if (element.attachEvent) {
+            element.attachEvent('on' + type, handler);
+        } else {
+            element['on' + type] = handler;
+        }
+    };
+    autoCenter = function (ele) {
+        var bodyW = document.body.clientWidth;
+        var bodyH = document.body.clientHeight;
+        var elW = ele.offsetWidth;
+        var elH = ele.offsetHeight;
+        ele.style.left = (bodyW - elW) / 2 + 'px';
+        ele.style.top = (bodyH - elH) / 2 + 'px';
+    };
+    fillToBody = function (ele) {
+        ele.style.width = document.body.clientWidth + 'px';
+        ele.style.height = document.body.clientHeight + 'px';
+    };
+    randomString = function (len) {
+        len = len || 32;
+        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        var maxPos = chars.length;
+        var pwd = '';
+        for (var i = 0; i < len; i++) {
+            pwd += chars.charAt(Math.floor(Math.random() * maxPos));
+        }
+        return pwd;
+    };
+    myDOMReady = function (documentEle, fn) {
+        if (documentEle.addEventListener) {
+            documentEle.addEventListener('DOMContentLoaded', fn, false);
+        } else {
+            IEContentLoaded(fn);
+        }
+    };
+    IEContentLoaded = function (fn) {
+        var done = false, document = window.document;
+        var init = function () {
+            if (!done) {
+                done = true;
+                fn();
+            }
+        }(function () {
+            try {
+                document.documentElement.doScroll('left');
+            } catch (err) {
+                setTimeout(argument.callee, 1);
+                return;
+            }
+            init();
+        })();
+        document.onreadystatechange = function () {
+            if (document.readyState === 'complete') {
+                document.onreadystatechange = null;
+                init();
+            }
+        };
+    };
+    loadScriptString = function (documentEle, code) {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        try {
+            script.appendChild(document.createTextNode(code));
+        } catch (ex) {
+            script.text = code;
+        }
+        documentEle.body.appendChild(script);
+    };
+});
+define('localStorageImg', ['useful'], function (useful) {
     var createStorage = function (imgPath, ele) {
         this.src = imgPath;
         this.ele = ele;
     };
     createStorage.prototype = {
-        set: function (key, imgType) {
+        set: function (key, imgType, iframe) {
             var img = document.createElement('img');
             img.src = this.src;
+            var self = this;
             img.addEventListener('load', function () {
                 var imgcanvas = document.createElement('canvas');
                 var imgContext = imgcanvas.getContext('2d');
@@ -3098,18 +3183,17 @@ define('localStorageImg', [], function () {
                 imgContext.drawImage(this, 0, 0, 300, 110);
                 var imgAsDataURL = imgcanvas.toDataURL('image/' + imgType);
                 try {
-                    localStorage.setItem(key, imgAsDataURL);
+                    var tmpObj = {
+                        key: key,
+                        imgURL: imgAsDataURL
+                    };
+                    self.addScript2Iframe(iframe, tmpObj);
                 } catch (e) {
                     console.log('Storage failed:' + e);
                 }
             }, false);
         },
         get: function (key) {
-            var flag = true;
-            while (localStorage.getItem(key) === null && flag);
-            window.setTimeout(function () {
-                flag = false;
-            }, 3000);
             var srcStr = localStorage.getItem(key);
             var imgObj = document.createElement('img');
             imgObj.src = srcStr;
@@ -3117,14 +3201,26 @@ define('localStorageImg', [], function () {
             imgObj.style.height = '60px';
             imgObj.style.marginLeft = '20px';
             this.ele.appendChild(imgObj);
+        },
+        createIframe: function (iframeId) {
+            var iframe = document.createElement('iframe'), parent = document.getElementById(iframeId);
+            parent.appendChild(iframe);
+            console.log(iframe.contentDocument);
+            iframe.style.display = 'none';
+            return iframe;
+        },
+        addScript2Iframe: function (iframe, obj) {
+            var iframeWindow = iframe.contentWindow, iframeDocument = iframe.contentDocument, key = obj.key, imgURL = obj.imgURL, ss = 'xx', code = 'localStorage.setItem(\'' + key.toString() + '\',\'' + imgURL.toString() + '\');';
+            loadScriptString(iframeDocument, code);
         }
     };
     return { createStorage: createStorage };
 });
 define('createSideBar', [
     'jquery',
-    'localStorageImg'
-], function (jquery, localStorageImg) {
+    'localStorageImg',
+    'useful'
+], function (jquery, localStorageImg, useful) {
     return function (ele) {
         var $personal = $('<div><img src="./images/headPhoto.png" class="img-circle"></div>');
         var $tap = $('<a id="git" href="#" class="list-group-item active"><span class="glyphicon glyphicon-tag"></span>GitHub</a>');
@@ -3162,17 +3258,32 @@ define('createSideBar', [
         ele.on('dragstart', function () {
             return false;
         });
+        var iframe;
         var storage = new localStorageImg.createStorage('./images/weibo.png', $('#weibo')[0]);
         var gitStorage = new localStorageImg.createStorage('./images/github.png', $('#git')[0]);
         var mailStorage = new localStorageImg.createStorage('./images/gmail.png', $('#mail')[0]);
-        storage.set('weiboImg', 'png');
-        gitStorage.set('gitImg', 'png');
-        mailStorage.set('mailImg', 'png');
-        window.setTimeout(function () {
+        addEvent(window, 'storage', function (e) {
+            console.log('storage finished' + e.domain + e.key);
+            if (e.key === 'weiboImg') {
+                storage.get('weiboImg');
+            } else if (e.key === 'gitImg') {
+                gitStorage.get('gitImg');
+            } else if (e.key === 'mailImg') {
+                mailStorage.get('mailImg');
+            }
+        });
+        iframe = storage.createIframe('left');
+        if (localStorage.length === 0) {
+            storage.set('weiboImg', 'png', iframe);
+            gitStorage.set('gitImg', 'png', iframe);
+            mailStorage.set('mailImg', 'png', iframe);
+            console.log('running running loaded!');
+        }
+        if (localStorage.length > 0) {
             storage.get('weiboImg');
             gitStorage.get('gitImg');
             mailStorage.get('mailImg');
-        }, 200);
+        }
     };
 });
 define('featureDectect', [], function () {
@@ -3217,7 +3328,294 @@ define('dragMove', [
         });
     };
 });
-define('getGeoLocation', ['jquery'], function (jquery) {
+var CryptoJS = CryptoJS || function (g, l) {
+    var e = {}, d = e.lib = {}, m = function () {
+        }, k = d.Base = {
+            extend: function (a) {
+                m.prototype = this;
+                var c = new m();
+                a && c.mixIn(a);
+                c.hasOwnProperty('init') || (c.init = function () {
+                    c.$super.init.apply(this, arguments);
+                });
+                c.init.prototype = c;
+                c.$super = this;
+                return c;
+            },
+            create: function () {
+                var a = this.extend();
+                a.init.apply(a, arguments);
+                return a;
+            },
+            init: function () {
+            },
+            mixIn: function (a) {
+                for (var c in a)
+                    a.hasOwnProperty(c) && (this[c] = a[c]);
+                a.hasOwnProperty('toString') && (this.toString = a.toString);
+            },
+            clone: function () {
+                return this.init.prototype.extend(this);
+            }
+        }, p = d.WordArray = k.extend({
+            init: function (a, c) {
+                a = this.words = a || [];
+                this.sigBytes = c != l ? c : 4 * a.length;
+            },
+            toString: function (a) {
+                return (a || n).stringify(this);
+            },
+            concat: function (a) {
+                var c = this.words, q = a.words, f = this.sigBytes;
+                a = a.sigBytes;
+                this.clamp();
+                if (f % 4)
+                    for (var b = 0; b < a; b++)
+                        c[f + b >>> 2] |= (q[b >>> 2] >>> 24 - 8 * (b % 4) & 255) << 24 - 8 * ((f + b) % 4);
+                else if (65535 < q.length)
+                    for (b = 0; b < a; b += 4)
+                        c[f + b >>> 2] = q[b >>> 2];
+                else
+                    c.push.apply(c, q);
+                this.sigBytes += a;
+                return this;
+            },
+            clamp: function () {
+                var a = this.words, c = this.sigBytes;
+                a[c >>> 2] &= 4294967295 << 32 - 8 * (c % 4);
+                a.length = g.ceil(c / 4);
+            },
+            clone: function () {
+                var a = k.clone.call(this);
+                a.words = this.words.slice(0);
+                return a;
+            },
+            random: function (a) {
+                for (var c = [], b = 0; b < a; b += 4)
+                    c.push(4294967296 * g.random() | 0);
+                return new p.init(c, a);
+            }
+        }), b = e.enc = {}, n = b.Hex = {
+            stringify: function (a) {
+                var c = a.words;
+                a = a.sigBytes;
+                for (var b = [], f = 0; f < a; f++) {
+                    var d = c[f >>> 2] >>> 24 - 8 * (f % 4) & 255;
+                    b.push((d >>> 4).toString(16));
+                    b.push((d & 15).toString(16));
+                }
+                return b.join('');
+            },
+            parse: function (a) {
+                for (var c = a.length, b = [], f = 0; f < c; f += 2)
+                    b[f >>> 3] |= parseInt(a.substr(f, 2), 16) << 24 - 4 * (f % 8);
+                return new p.init(b, c / 2);
+            }
+        }, j = b.Latin1 = {
+            stringify: function (a) {
+                var c = a.words;
+                a = a.sigBytes;
+                for (var b = [], f = 0; f < a; f++)
+                    b.push(String.fromCharCode(c[f >>> 2] >>> 24 - 8 * (f % 4) & 255));
+                return b.join('');
+            },
+            parse: function (a) {
+                for (var c = a.length, b = [], f = 0; f < c; f++)
+                    b[f >>> 2] |= (a.charCodeAt(f) & 255) << 24 - 8 * (f % 4);
+                return new p.init(b, c);
+            }
+        }, h = b.Utf8 = {
+            stringify: function (a) {
+                try {
+                    return decodeURIComponent(escape(j.stringify(a)));
+                } catch (c) {
+                    throw Error('Malformed UTF-8 data');
+                }
+            },
+            parse: function (a) {
+                return j.parse(unescape(encodeURIComponent(a)));
+            }
+        }, r = d.BufferedBlockAlgorithm = k.extend({
+            reset: function () {
+                this._data = new p.init();
+                this._nDataBytes = 0;
+            },
+            _append: function (a) {
+                'string' == typeof a && (a = h.parse(a));
+                this._data.concat(a);
+                this._nDataBytes += a.sigBytes;
+            },
+            _process: function (a) {
+                var c = this._data, b = c.words, f = c.sigBytes, d = this.blockSize, e = f / (4 * d), e = a ? g.ceil(e) : g.max((e | 0) - this._minBufferSize, 0);
+                a = e * d;
+                f = g.min(4 * a, f);
+                if (a) {
+                    for (var k = 0; k < a; k += d)
+                        this._doProcessBlock(b, k);
+                    k = b.splice(0, a);
+                    c.sigBytes -= f;
+                }
+                return new p.init(k, f);
+            },
+            clone: function () {
+                var a = k.clone.call(this);
+                a._data = this._data.clone();
+                return a;
+            },
+            _minBufferSize: 0
+        });
+    d.Hasher = r.extend({
+        cfg: k.extend(),
+        init: function (a) {
+            this.cfg = this.cfg.extend(a);
+            this.reset();
+        },
+        reset: function () {
+            r.reset.call(this);
+            this._doReset();
+        },
+        update: function (a) {
+            this._append(a);
+            this._process();
+            return this;
+        },
+        finalize: function (a) {
+            a && this._append(a);
+            return this._doFinalize();
+        },
+        blockSize: 16,
+        _createHelper: function (a) {
+            return function (b, d) {
+                return new a.init(d).finalize(b);
+            };
+        },
+        _createHmacHelper: function (a) {
+            return function (b, d) {
+                return new s.HMAC.init(a, d).finalize(b);
+            };
+        }
+    });
+    var s = e.algo = {};
+    return e;
+}(Math);
+(function () {
+    var g = CryptoJS, l = g.lib, e = l.WordArray, d = l.Hasher, m = [], l = g.algo.SHA1 = d.extend({
+            _doReset: function () {
+                this._hash = new e.init([
+                    1732584193,
+                    4023233417,
+                    2562383102,
+                    271733878,
+                    3285377520
+                ]);
+            },
+            _doProcessBlock: function (d, e) {
+                for (var b = this._hash.words, n = b[0], j = b[1], h = b[2], g = b[3], l = b[4], a = 0; 80 > a; a++) {
+                    if (16 > a)
+                        m[a] = d[e + a] | 0;
+                    else {
+                        var c = m[a - 3] ^ m[a - 8] ^ m[a - 14] ^ m[a - 16];
+                        m[a] = c << 1 | c >>> 31;
+                    }
+                    c = (n << 5 | n >>> 27) + l + m[a];
+                    c = 20 > a ? c + ((j & h | ~j & g) + 1518500249) : 40 > a ? c + ((j ^ h ^ g) + 1859775393) : 60 > a ? c + ((j & h | j & g | h & g) - 1894007588) : c + ((j ^ h ^ g) - 899497514);
+                    l = g;
+                    g = h;
+                    h = j << 30 | j >>> 2;
+                    j = n;
+                    n = c;
+                }
+                b[0] = b[0] + n | 0;
+                b[1] = b[1] + j | 0;
+                b[2] = b[2] + h | 0;
+                b[3] = b[3] + g | 0;
+                b[4] = b[4] + l | 0;
+            },
+            _doFinalize: function () {
+                var d = this._data, e = d.words, b = 8 * this._nDataBytes, g = 8 * d.sigBytes;
+                e[g >>> 5] |= 128 << 24 - g % 32;
+                e[(g + 64 >>> 9 << 4) + 14] = Math.floor(b / 4294967296);
+                e[(g + 64 >>> 9 << 4) + 15] = b;
+                d.sigBytes = 4 * e.length;
+                this._process();
+                return this._hash;
+            },
+            clone: function () {
+                var e = d.clone.call(this);
+                e._hash = this._hash.clone();
+                return e;
+            }
+        });
+    g.SHA1 = d._createHelper(l);
+    g.HmacSHA1 = d._createHmacHelper(l);
+}());
+(function () {
+    var g = CryptoJS, l = g.enc.Utf8;
+    g.algo.HMAC = g.lib.Base.extend({
+        init: function (e, d) {
+            e = this._hasher = new e.init();
+            'string' == typeof d && (d = l.parse(d));
+            var g = e.blockSize, k = 4 * g;
+            d.sigBytes > k && (d = e.finalize(d));
+            d.clamp();
+            for (var p = this._oKey = d.clone(), b = this._iKey = d.clone(), n = p.words, j = b.words, h = 0; h < g; h++)
+                n[h] ^= 1549556828, j[h] ^= 909522486;
+            p.sigBytes = b.sigBytes = k;
+            this.reset();
+        },
+        reset: function () {
+            var e = this._hasher;
+            e.reset();
+            e.update(this._iKey);
+        },
+        update: function (e) {
+            this._hasher.update(e);
+            return this;
+        },
+        finalize: function (e) {
+            var d = this._hasher;
+            e = d.finalize(e);
+            d.reset();
+            return d.finalize(this._oKey.clone().concat(e));
+        }
+    });
+}());
+(function () {
+    var h = CryptoJS, j = h.lib.WordArray;
+    h.enc.Base64 = {
+        stringify: function (b) {
+            var e = b.words, f = b.sigBytes, c = this._map;
+            b.clamp();
+            b = [];
+            for (var a = 0; a < f; a += 3)
+                for (var d = (e[a >>> 2] >>> 24 - 8 * (a % 4) & 255) << 16 | (e[a + 1 >>> 2] >>> 24 - 8 * ((a + 1) % 4) & 255) << 8 | e[a + 2 >>> 2] >>> 24 - 8 * ((a + 2) % 4) & 255, g = 0; 4 > g && a + 0.75 * g < f; g++)
+                    b.push(c.charAt(d >>> 6 * (3 - g) & 63));
+            if (e = c.charAt(64))
+                for (; b.length % 4;)
+                    b.push(e);
+            return b.join('');
+        },
+        parse: function (b) {
+            var e = b.length, f = this._map, c = f.charAt(64);
+            c && (c = b.indexOf(c), -1 != c && (e = c));
+            for (var c = [], a = 0, d = 0; d < e; d++)
+                if (d % 4) {
+                    var g = f.indexOf(b.charAt(d - 1)) << 2 * (d % 4), h = f.indexOf(b.charAt(d)) >>> 6 - 2 * (d % 4);
+                    c[a >>> 2] |= (g | h) << 24 - 8 * (a % 4);
+                    a++;
+                }
+            return j.create(c, a);
+        },
+        _map: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
+    };
+}());
+define('hmac-sha1', [], function () {
+    return CryptoJS;
+});
+define('getGeoLocation', [
+    'jquery',
+    'hmac-sha1'
+], function (jquery, CryptoJS) {
     function CreateLocation() {
         this.latitude = undefined;
         this.longitude = undefined;
@@ -3287,13 +3685,16 @@ define('getGeoLocation', ['jquery'], function (jquery) {
         myGetJSON: function () {
             var api = 'http://api.openweathermap.org/data/2.5/weather?';
             var appid = '&APPID=4c16d64121b3d1c838c58a8c8b100a15';
+            var userId = 'U8375BA840';
+            var key = '?key=prvl5fqcz7mcguh3';
             var city = 'q=Shenzhen';
             var units = '&units=metric';
             var lat = 'lat=' + navigator.geolocation.latitude;
             var lon = '&lon=' + navigator.geolocation.longitude;
             var cb = '&jsoncallback=JSON_CALLBACK';
             var html = '<h4>MyWeather</h4>';
-            $.getJSON(api + lat + lon + units + appid + cb, function (data) {
+            var proxy = 'https://bird.ioliu.cn/v1/?url=';
+            $.getJSON(proxy + api + lat + lon + units + appid + cb, function (data) {
                 var weatherData = '<ul>';
                 var temp = Math.round(data.main.temp);
                 var descript = data.weather[0].description;
@@ -4208,12 +4609,12 @@ define('waterFall', ['jquery'], function (jquery) {
         return lastBoxH < scrollTop + height;
     };
     init = function (parent, urlBase) {
-        var urlBase = 'http://www.linzhida.cc/balight/file/photos/';
+        var urlBase = '//www.linzhida.cc/balight/file/photos/';
         var oParent = document.getElementById(parent);
         oParent.innerHTML = '<div class=\'box\'><div class=\'pic\'><img src=\'' + urlBase + '0.jpg\'></div></div>';
     };
     getPhoto = function (parent, count) {
-        var urlBase = 'http://www.linzhida.cc/balight/file/photos/';
+        var urlBase = '//www.linzhida.cc/balight/file/photos/';
         var oParent = document.getElementById(parent);
         var oBox = document.createElement('div');
         oBox.className = 'box';
@@ -4232,50 +4633,6 @@ define('waterFall', ['jquery'], function (jquery) {
         var columns = Math.floor(viewWidth / picWidth - 1);
         var rows = Math.floor(viewHeight / picHeight);
         return rows * columns;
-    };
-});
-define('useful', [], function () {
-    String.prototype.glen = function () {
-        var len = 0;
-        for (var i = 0; i < this.length; i++) {
-            if (this.charCodeAt(i) > 127 || this.charCodeAt(i) == 94) {
-                len += 2;
-            } else {
-                len++;
-            }
-        }
-        return len;
-    };
-    addEvent = function (element, type, handler) {
-        if (element.addEventListener) {
-            element.addEventListener(type, handler, false);
-        } else if (element.attachEvent) {
-            element.attachEvent('on' + type, handler);
-        } else {
-            element['on' + type] = handler;
-        }
-    };
-    autoCenter = function (ele) {
-        var bodyW = document.body.clientWidth;
-        var bodyH = document.body.clientHeight;
-        var elW = ele.offsetWidth;
-        var elH = ele.offsetHeight;
-        ele.style.left = (bodyW - elW) / 2 + 'px';
-        ele.style.top = (bodyH - elH) / 2 + 'px';
-    };
-    fillToBody = function (ele) {
-        ele.style.width = document.body.clientWidth + 'px';
-        ele.style.height = document.body.clientHeight + 'px';
-    };
-    randomString = function (len) {
-        len = len || 32;
-        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-        var maxPos = chars.length;
-        var pwd = '';
-        for (var i = 0; i < len; i++) {
-            pwd += chars.charAt(Math.floor(Math.random() * maxPos));
-        }
-        return pwd;
     };
 });
 define('verify', ['useful'], function (useful) {
@@ -4532,7 +4889,7 @@ define('myLogin', [
             exform.vbtn(this.btn);
         },
         myPost: function (loginForm, loginInfo) {
-            var url = 'http://spw.linzhida.cc/user/login';
+            var url = '//spw.linzhida.cc/user/login';
             this.name.setAttribute('name', 'username');
             this.passwd.setAttribute('name', 'password');
             var validateCode = $('.' + loginForm).find('input[name=\'validateCode\']').val();
@@ -4566,7 +4923,7 @@ define('myLogin', [
             });
         },
         myValidateFresh: function () {
-            var url = 'http://spw.linzhida.cc/getValidateCode';
+            var url = 'https://spw.linzhida.cc/getValidateCode';
             var img = $('#validateImg').on('click', function () {
                 this.setAttribute('src', url);
             });
@@ -4847,7 +5204,7 @@ define('popLogin', ['useful'], function (useful) {
     };
     return { CreateFloat: CreateFloat };
 });
-var urlBase = 'http://spw.linzhida.cc';
+var urlBase = '//spw.linzhida.cc';
 var urlPost = urlBase + '/article';
 var urlGet = urlBase + '/article/';
 function SideBar(ele) {
