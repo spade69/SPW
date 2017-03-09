@@ -47,7 +47,9 @@ function SideBar(ele){
 function tab_switch(ele,myLogin,myPosts,mySignUp){
     var myEle=$('#'+ele);   
     var fill=$('.fill');
+    //jQuery实现了事件监听，它本来就考虑了兼容性了
     myEle.on('click','li a',function(event){
+         //这里用到了事件委托！ ！！！ 
         $("#tabContent").children().addClass("hidden");
         var tmp=myEle.find("li a");
         for(var i=0;i<tmp.length;i++){
