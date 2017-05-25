@@ -14,8 +14,8 @@ define(['jquery','featureDectect'],function(jquery,featureDectect){
 		move=true;
 		//event.pageX  event.pageY 当前鼠标的横纵坐标
 		//_x 是鼠标离最左边的距离减去div离最左边的距离，即鼠标相对于div左边边距的距离(margin)
-		 _x=event.pageX-parseInt(ele.css("left"));//left左外边距边界与其包含块左边界之间的偏移。
-		 _y=event.pageY-parseInt(ele.css("top"));
+		 _x=event.pageX-parseInt(ele.css("left"));//left  左外边距边界与其包含块左边界之间的偏移。
+		 _y=event.pageY-parseInt(ele.css("top"));//因为想直接转“12px”这样的数 为 12
 
 		// _x=event.pageX-ele.offset().left;
 		// _y=event.pageY-ele.offset().top;

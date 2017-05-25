@@ -46,7 +46,9 @@ function SideBar(ele){
     //2) 事件委托，绑定到父元素
 function tab_switch(ele,myLogin,myPosts,mySignUp){
     var myEle=$('#'+ele);   
-    var fill=$('.fill');
+    var fill=$('.fill');   
+    //preload preloadImgs when first loading the page
+    var imgs=preloadImages(97);
     //jQuery实现了事件监听，它本来就考虑了兼容性了
     myEle.on('click','li a',function(event){
          //这里用到了事件委托！ ！！！ 
@@ -58,12 +60,12 @@ function tab_switch(ele,myLogin,myPosts,mySignUp){
                 switch(i)
                 {//Graph
                     case 4:                 
-                        var count=1,pre=calInitial(185);    
-                        init('gallery');
+                        var count=1;
+                        var pre=calInitial(185);    
+                        init('gallery',count,imgs);
                         for( var i=0;i<pre;i++){
-                            getPhoto('gallery',count);
+                            getPhoto('gallery',count,imgs);
                             waterfall('gallery','box');
-                            //65 ? experience?
                             fill.css('height',65*(count+1)+'px');
                             count++;
                         }
@@ -71,17 +73,18 @@ function tab_switch(ele,myLogin,myPosts,mySignUp){
                             if(checkScrollSlide('gallery','box')&&count<97){
                                 //var oParent=document.getElementById(parent);
                                 //let data reder behind将数据块加载到页面尾部
-                                getPhoto('gallery',count);
+                                getPhoto('gallery',count,imgs);
                                 waterfall('gallery','box');
                                 fill.css('height',60*(count+1)+'px');
                                 count++;
                             }
                 
                         }
+               
                         break;
             
                     case 3:
-                        var mySign=new mySignUp.createSignUp('username','passwd','xpasswd','mail',
+                        var mySign=new mySignUp.createSignUp('username','passwd','xpasswd','xmail',
                             'info','icode','dcodex','dmail');
                         mySign.myVerify();
                         mySign.signUpPost();
@@ -102,6 +105,7 @@ function tab_switch(ele,myLogin,myPosts,mySignUp){
                     case 1:
                         window.location.href="blog/tech.html";
                         break;
+                    case 0:break;
                     default:
                     break;
                 }

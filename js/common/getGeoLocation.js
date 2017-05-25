@@ -49,7 +49,7 @@ define(['jquery','hmac-sha1'],function(jquery,CryptoJS){
             var coords=position.coords;
             navigator.geolocation.latitude=coords.latitude+0.00374531687912;//偏移量校正值 
             navigator.geolocation.longitude=coords.longitude+0.008774687519;
-            console.log("Success ",this.latitude,this.longitude);
+            //console.log("Success ",this.latitude,this.longitude);
         },
         showError:function(error){
             switch(error.code)
@@ -118,16 +118,18 @@ define(['jquery','hmac-sha1'],function(jquery,CryptoJS){
             $.getJSON(proxy+api+lat+lon+units+appid+cb,function(data){
                 var weatherData='<ul>';
                     //data已经被转为jq的对象
-                var temp=Math.round(data.main.temp);
-                var descript=data.weather[0].description;       
-                    /*$.each(data,function(k,v){
-                        console.log(k);
-                     });*/
-                html+='<span>'+data.name+','+data.sys.country+'</span>';
-                $("#weather").html(html);
-                weatherData+='<li>'+temp+'\u2103'+'</li>'+'<li>'+descript+'</li>';
-                weatherData+='</ul>';
-                $("#weather").append(weatherData);  
+                if(data.main){
+                    var temp=Math.round(data.main.temp);
+                    var descript=data.weather[0].description;       
+                        /*$.each(data,function(k,v){
+                            console.log(k);
+                         });*/
+                    html+='<span>'+data.name+','+data.sys.country+'</span>';
+                    $("#weather").html(html);
+                    weatherData+='<li>'+temp+'\u2103'+'</li>'+'<li>'+descript+'</li>';
+                    weatherData+='</ul>';
+                    $("#weather").append(weatherData);  
+                }
             });
         },
         handlePermission:function(){
@@ -155,7 +157,7 @@ define(['jquery','hmac-sha1'],function(jquery,CryptoJS){
             }
         },
         report:function(state){
-            console.log('Permission: '+state);
+            //console.log('Permission: '+state);
         }
     }
     return {

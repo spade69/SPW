@@ -136,29 +136,29 @@ vform.prototype={
     vmail:function(dmail,xmail){
         //var xmail=inputEles[3];
         var arg=this.check;
-
+            console.log('running?');
             function handle(arg){
             var str=xmail.value.trim();
-            var reg=new RegExp('^([a-zA-Z0-9_\.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$','i');
-            arg[3]=false;
-            if(str.length<1||str===""){
-                xmail.style.borderColor="red";
-                dmail.innerHTML="<span style='color:red'>输入不能为空</span>";
+                var reg=new RegExp('^([a-zA-Z0-9_\.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$','i');
+                arg[3]=false;
+                if(str.length<1||str===""){
+                    xmail.style.borderColor="red";
+                    dmail.innerHTML="<span style='color:red'>输入不能为空</span>";
+                }
+                else if(str.match(reg)){
+                    arg[3]=true;
+                    xmail.style.borderColor="green";    
+                    dmail.innerHTML="<span style='color:green'>邮箱格式正确</span>";
+                }
+                else{
+                    xmail.style.borderColor="red";
+                    dmail.innerHTML="<span style='color:red'>邮箱格式错误</span>";
+                }
             }
-            else if(str.match(reg)){
-                arg[3]=true;
-                xmail.style.borderColor="green";    
-                dmail.innerHTML="<span style='color:green'>邮箱格式正确</span>";
-            }
-            else{
-                xmail.style.borderColor="red";
-                dmail.innerHTML="<span style='color:red'>邮箱格式错误</span>";
-            }
-        }
 
             addEvent(xmail,'blur',function(){handle(arg);});
             addEvent(xmail,'focus',function(){
-            dmail.innerHTML="<span style='color:gray'>exampleh@hah.com</span>";
+                dmail.innerHTML="<span style='color:gray'>exampleh@hah.com</span>";
             });
         
     },

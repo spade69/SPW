@@ -232,21 +232,26 @@ body{
       top: 100px;
       position: fixed;       
     }
+    /*响应式调整sidebar的位置*/
+     /* 宽度最小为900px，其实就是>=900的都按这个显示*/
     @media screen and (min-width:900px){
       .sidebar{
       left:900px;
       }
     }
+    /*900>= width >=700 */
     @media screen and (max-width:900px) and (min-width:700px){
       .sidebar{
         left:760px;
       }
     }
+    /*700>= width >=500 */
     @media screen and (max-width:700px) and (min-width:500px){
       .sidebar{
         left:580px;
       }
     }
+    /* 480>= width  隐藏*/
     @media screen and (max-width:480px){
       .sidebar{
         display: none;

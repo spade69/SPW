@@ -3649,7 +3649,6 @@ define('getGeoLocation', [
             var coords = position.coords;
             navigator.geolocation.latitude = coords.latitude + 0.00374531687912;
             navigator.geolocation.longitude = coords.longitude + 0.008774687519;
-            console.log('Success ', this.latitude, this.longitude);
         },
         showError: function (error) {
             switch (error.code) {
@@ -3696,13 +3695,15 @@ define('getGeoLocation', [
             var proxy = 'https://bird.ioliu.cn/v1/?url=';
             $.getJSON(proxy + api + lat + lon + units + appid + cb, function (data) {
                 var weatherData = '<ul>';
-                var temp = Math.round(data.main.temp);
-                var descript = data.weather[0].description;
-                html += '<span>' + data.name + ',' + data.sys.country + '</span>';
-                $('#weather').html(html);
-                weatherData += '<li>' + temp + '\u2103' + '</li>' + '<li>' + descript + '</li>';
-                weatherData += '</ul>';
-                $('#weather').append(weatherData);
+                if (data.main) {
+                    var temp = Math.round(data.main.temp);
+                    var descript = data.weather[0].description;
+                    html += '<span>' + data.name + ',' + data.sys.country + '</span>';
+                    $('#weather').html(html);
+                    weatherData += '<li>' + temp + '\u2103' + '</li>' + '<li>' + descript + '</li>';
+                    weatherData += '</ul>';
+                    $('#weather').append(weatherData);
+                }
             });
         },
         handlePermission: function () {
@@ -3728,7 +3729,6 @@ define('getGeoLocation', [
             }
         },
         report: function (state) {
-            console.log('Permission: ' + state);
         }
     };
     return { CreateLocation: CreateLocation };
@@ -4539,27 +4539,7 @@ define('bootstrap', [], function () {
     return;
 });
 define('waterFall', ['jquery'], function (jquery) {
-    waterfall = function (parent, box) {
-        var oParent = document.getElementById(parent);
-        var oBoxs = getByClass(oParent, box);
-        var oBoxW = oBoxs[0].offsetWidth;
-        var dWidth = document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth;
-        var cols = Math.floor(dWidth / oBoxW);
-        oParent.style.cssText = 'width:' + oBoxW * cols + 'px;margin:0 auto';
-        var hArr = [];
-        for (var i = 0; i < oBoxs.length; i++) {
-            if (i < cols) {
-                hArr.push(oBoxs[i].offsetHeight);
-            } else {
-                var minH = Math.min.apply(null, hArr);
-                var index = hArr.indexOf(minH);
-                oBoxs[i].style.position = 'absolute';
-                oBoxs[i].style.top = minH + 'px';
-                oBoxs[i].style.left = oBoxW * index + 'px';
-                hArr[index] += oBoxs[i].offsetHeight;
-            }
-        }
-    };
+    var urlBase = 'http://api.linzhida.cc/images/';
     waterfallJQ = function (parent) {
         var oParent = $('#' + parent);
         var oBoxs = oParent.children('div.box');
@@ -4587,6 +4567,27 @@ define('waterFall', ['jquery'], function (jquery) {
             }
         });
     };
+    waterfall = function (parent, box) {
+        var oParent = document.getElementById(parent);
+        var oBoxs = getByClass(oParent, box);
+        var oBoxW = oBoxs[0].offsetWidth;
+        var dWidth = document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth;
+        var cols = Math.floor(dWidth / oBoxW);
+        oParent.style.cssText = 'width:' + oBoxW * cols + 'px;margin:0 auto';
+        var hArr = [];
+        for (var i = 0; i < oBoxs.length; i++) {
+            if (i < cols) {
+                hArr.push(oBoxs[i].offsetHeight);
+            } else {
+                var minH = Math.min.apply(null, hArr);
+                var index = hArr.indexOf(minH);
+                oBoxs[i].style.position = 'absolute';
+                oBoxs[i].style.top = minH + 'px';
+                oBoxs[i].style.left = oBoxW * index + 'px';
+                hArr[index] += oBoxs[i].offsetHeight;
+            }
+        }
+    };
     getByClass = function (parent, clsName) {
         if (parent.getElementsByClassName(clsName)) {
             var boxArr = parent.getElementsByClassName(clsName);
@@ -4608,13 +4609,18 @@ define('waterFall', ['jquery'], function (jquery) {
         var height = document.documentElement.clientHeight || document.body.clientHeight;
         return lastBoxH < scrollTop + height;
     };
-    init = function (parent, urlBase) {
-        var urlBase = '//www.linzhida.cc/balight/file/photos/';
+    init = function (parent) {
         var oParent = document.getElementById(parent);
         oParent.innerHTML = '<div class=\'box\'><div class=\'pic\'><img src=\'' + urlBase + '0.jpg\'></div></div>';
+        window.onload = function (event) {
+            for (var i = 0; i < 20; i++) {
+                window.scrollTo(0, 800);
+                window.scrollTo(0, -800);
+                waterfall('gallery', 'box');
+            }
+        };
     };
-    getPhoto = function (parent, count) {
-        var urlBase = '//www.linzhida.cc/balight/file/photos/';
+    getPhoto = function (parent, count, imgs) {
         var oParent = document.getElementById(parent);
         var oBox = document.createElement('div');
         oBox.className = 'box';
@@ -4622,17 +4628,23 @@ define('waterFall', ['jquery'], function (jquery) {
         var oPic = document.createElement('div');
         oPic.className = 'pic';
         oBox.appendChild(oPic);
-        var oImg = document.createElement('img');
-        oImg.src = urlBase + count + '.jpg';
-        oPic.appendChild(oImg);
+        oPic.appendChild(imgs[count]);
     };
     calInitial = function (picWidth) {
         var picHeight = picWidth;
-        var viewHeight = window.innerHeight || document.documentElement.clientHeight;
-        var viewWidth = window.innerWidth || document.documentElement.clientWidth;
+        var viewHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientWidth;
+        var viewWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientHeight;
         var columns = Math.floor(viewWidth / picWidth - 1);
         var rows = Math.floor(viewHeight / picHeight);
         return rows * columns;
+    };
+    preloadImages = function (pre) {
+        var imgs = [];
+        for (var i = 0; i < pre; i++) {
+            imgs[i] = new Image();
+            imgs[i].src = urlBase + i + '.jpg';
+        }
+        return imgs;
     };
 });
 define('verify', ['useful'], function (useful) {
@@ -4722,6 +4734,7 @@ define('verify', ['useful'], function (useful) {
         },
         vmail: function (dmail, xmail) {
             var arg = this.check;
+            console.log('running?');
             function handle(arg) {
                 var str = xmail.value.trim();
                 var reg = new RegExp('^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$', 'i');
@@ -4812,6 +4825,7 @@ define('mySignUp', [
     createSignUp.prototype = {
         myVerify: function () {
             var exform = new verify.vform(this.btn, 4);
+            console.log('we are here');
             exform.vName(this.info, this.userID);
             exform.vPasswd(this.icode, this.passwd);
             exform.vPassx(this.xcode, this.passwd, this.xpass);
@@ -5230,6 +5244,7 @@ function SideBar(ele) {
 function tab_switch(ele, myLogin, myPosts, mySignUp) {
     var myEle = $('#' + ele);
     var fill = $('.fill');
+    var imgs = preloadImages(97);
     myEle.on('click', 'li a', function (event) {
         $('#tabContent').children().addClass('hidden');
         var tmp = myEle.find('li a');
@@ -5238,17 +5253,18 @@ function tab_switch(ele, myLogin, myPosts, mySignUp) {
                 $('#tabContent').children().eq(i).removeClass('hidden');
                 switch (i) {
                 case 4:
-                    var count = 1, pre = calInitial(185);
-                    init('gallery');
+                    var count = 1;
+                    var pre = calInitial(185);
+                    init('gallery', count, imgs);
                     for (var i = 0; i < pre; i++) {
-                        getPhoto('gallery', count);
+                        getPhoto('gallery', count, imgs);
                         waterfall('gallery', 'box');
                         fill.css('height', 65 * (count + 1) + 'px');
                         count++;
                     }
                     window.onscroll = function () {
                         if (checkScrollSlide('gallery', 'box') && count < 97) {
-                            getPhoto('gallery', count);
+                            getPhoto('gallery', count, imgs);
                             waterfall('gallery', 'box');
                             fill.css('height', 60 * (count + 1) + 'px');
                             count++;
@@ -5256,7 +5272,7 @@ function tab_switch(ele, myLogin, myPosts, mySignUp) {
                     };
                     break;
                 case 3:
-                    var mySign = new mySignUp.createSignUp('username', 'passwd', 'xpasswd', 'mail', 'info', 'icode', 'dcodex', 'dmail');
+                    var mySign = new mySignUp.createSignUp('username', 'passwd', 'xpasswd', 'xmail', 'info', 'icode', 'dcodex', 'dmail');
                     mySign.myVerify();
                     mySign.signUpPost();
                     break;
@@ -5271,6 +5287,8 @@ function tab_switch(ele, myLogin, myPosts, mySignUp) {
                     break;
                 case 1:
                     window.location.href = 'blog/tech.html';
+                    break;
+                case 0:
                     break;
                 default:
                     break;
